@@ -1,0 +1,13 @@
+{% extends 'authapp/base.html' %}
+{% load staticfiles %}
+{% block container %}
+    {% if user %}
+        <h3>Поздравляем!</h3>
+        <br>
+        <h4>Пользователь {{mainapp_context.username}} подтвержден.</h4>
+    {% else %}
+        <h3>Верификация не пройдена.</h3>
+    {% endif %}
+    <br>
+    <a href="{% url 'main_urls:featured' %}" class='basket_button'>Home page</a>
+{% endblock %}

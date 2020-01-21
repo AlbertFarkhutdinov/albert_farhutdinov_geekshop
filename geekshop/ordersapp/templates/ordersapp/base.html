@@ -1,0 +1,19 @@
+{% extends 'mainapp/base.html'%}
+{% load static %}
+
+<body>
+    <div class="container" style="padding: 0;">
+        {% block header %}
+            {% include ordersapp_context.path_to_common_inc|add:'inc_header.html' %}
+        {% endblock %}
+        {% block container %}
+        {% endblock %}
+    </div>
+</body>
+
+{% block js %}
+<!--    <script src = "{% static 'js/jquery-3.4.1.js' %}"></script>-->
+    <script src = "{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script defer src = "{% static 'js/jquery.formset.js' %}" ></script>
+    <script defer src = "{% static 'js/orders_scripts.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,7 @@
+django
+pillow
+django-debug-toolbar
+django-debug-toolbar-template-profiler
+social_auth_app_django
+psycopg2
+django-extensions
