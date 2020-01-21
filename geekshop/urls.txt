@@ -1,0 +1,13 @@
+http://192.168.43.236/
+http://192.168.43.236/contacts/
+http://192.168.43.236/products/hot/
+http://192.168.43.236/products/category/0/
+http://192.168.43.236/products/category/1/
+http://192.168.43.236/products/category/2/
+http://192.168.43.236/products/category/3/
+http://192.168.43.236/products/category/4/
+http://192.168.43.236/products/category/5/
+http://192.168.43.236/basket/
+http://192.168.43.236/order/
+http://192.168.43.236/auth/edit/1/
+http://192.168.43.236/order/update/15/

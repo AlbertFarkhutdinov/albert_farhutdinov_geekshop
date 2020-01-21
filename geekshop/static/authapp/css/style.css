@@ -1,0 +1,20 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container {
+    text-align: center;
+    min-width: 500px;
+    max-width: 1366px;
+    margin: 0 auto;
+    outline: 1px dashed #212121;
+    position: relative;
+}
+.form-horizontal {
+    width: 100%;
+}

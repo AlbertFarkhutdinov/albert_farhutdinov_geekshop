@@ -1,0 +1,10 @@
+{% load static %}
+<div class="card"><img src="{% static mainapp_context.path_to_main_img|add:'geo.png' %}" alt="location">
+    <h2 class="card_h2">California</h2>
+    <div class="card_content">
+        {% for item in mainapp_context.contact_information.items%}
+            <p class="card_header">{{item.0|title}}:</p>
+            <p class="card_text">{{item.1}}</p>
+        {% endfor %}
+    </div>
+</div>

@@ -1,0 +1,17 @@
+{% extends 'mainapp/base.html' %}
+{% load custom_tags %}
+{% block container %}
+{% include mainapp_context.path_to_common_inc|add:'inc_header.html' %}
+<div class="products_sheet padding_site">
+    {% include mainapp_context.path_to_main_inc|add:'inc_product_category_menu.html' %}
+    <div class="products_block">
+        <div class="product_card" style="text-align: center;">
+            <a href="{% url 'products_urls:product' hot_product.pk %}" class="product_link" target="_blank">
+                <img src="{{mainapp_context.path_to_media}}{{hot_product.image}}" alt={{hot_product.name}}>
+            </a>
+            <h1 style="color: red;">HOT DEAL!</h1>
+            <div style="color: red;">There are {{hot_product.quantity}} products in the stock. Hurry up!!!</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
