@@ -1,0 +1,13 @@
+{% extends 'mainapp/base.html'%}
+{% load static %}
+{% block greetings %}
+{% endblock %}
+{% block container %}
+<form enctype="multipart/form-data" class="form-horizontal" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="{{ button_label }}">
+</form>
+{% endblock %}
+{% block footer %}
+{% endblock %}
