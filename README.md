@@ -29,4 +29,4 @@ Also. you can change directory to bat/ and use run.bat:
 	cd bat
 	run
 	
-Then go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+Now that the server’s running, visit [http://127.0.0.1:8000/](http://127.0.0.1:8000/) with your Web browser.  
