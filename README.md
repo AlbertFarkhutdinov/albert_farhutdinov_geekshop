@@ -4,23 +4,23 @@ Welcome! My name is Albert Farhutdinov. This is my realization of training proje
 
 ## Requirements
 
-0. Before you start, make sure that you have Python 3.7 or later versions. Input this command into terminal:
+1. Before you start, make sure that you have Python 3.7 or later versions. Input this command into terminal:
 
 		python --version
 
-1. Install the necessary libraries in your environment:
+2. Install the necessary libraries in your environment:
 
 		pip install -r requirements.txt
 	
-2. Apply migrations:
+3. Apply migrations:
 
 		python manage.py migrate
 
-3. Fill SQLite database.
+4. Fill SQLite database.
 
 		python manage.py fill_db
 
-4. Also, you need access the Internet to display fonts correctly.
+5. Also, you need access the Internet to display fonts correctly.
 
 ## Start
 
