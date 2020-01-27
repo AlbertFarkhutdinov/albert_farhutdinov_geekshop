@@ -6,20 +6,20 @@ Welcome! My name is Albert Farhutdinov. This is my realization of training proje
 
 0. Before you start, make sure that you have Python 3.7 or later versions. Input this command into terminal:
 
-	python --version
+		python --version
 
 1. Install the necessary libraries in your environment:
 
-	pip install -r requirements.txt
+		pip install -r requirements.txt
 	
 2. Apply migrations:
 
-	python manage.py migrate
-	
+		python manage.py migrate
+
 3. Fill SQLite database.
 
-	python manage.py fill_db
-	
+		python manage.py fill_db
+
 4. Also, you need access the Internet to display fonts correctly.
 
 ## Start
