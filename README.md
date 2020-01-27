@@ -4,7 +4,11 @@ Welcome! My name is Albert Farhutdinov. This is my realization of training proje
 
 ## Requirements
 
-1. Install the necessary libraries in your virtual environment:
+0. Before you start, make sure that you have Python 3.7 or later versions. Input this command into terminal:
+
+	python --version
+
+1. Install the necessary libraries in your environment:
 
 	pip install -r requirements.txt
 	
