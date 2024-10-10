@@ -1,0 +1,7 @@
+django<5.2
+django-debug-toolbar<2.2
+django-debug-toolbar-template-profiler<2.1
+django-extensions<2.3
+pillow==9.4.0
+psycopg2<2.9
+social_auth_app_django<3.2
