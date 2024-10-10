@@ -2,7 +2,7 @@
 name = "geekshop"
 version = "0.1.0"
 description = ""
-authors = ["AlbertFarkhutdinovWaverity <albert.farkhutdinov@waverity.ai>"]
+authors = ["AlbertFarkhutdinov <albertfarhutdinov@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
