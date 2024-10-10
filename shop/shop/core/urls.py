@@ -16,7 +16,41 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+# from mainapp.views import contacts, history, showroom
+from django.conf import settings
+from django.conf.urls import include
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('history/', history, name='history_url'),
+    # path('showroom/', showroom, name='showroom_url'),
+    # path('contacts/', contacts, name='contacts_url'),
+    path('', include(arg='mainapp.urls', namespace='main_urls')),
+    path('auth/', include(arg='authapp.urls', namespace='auth_urls')),
+    path('products/', include(arg='mainapp.urls', namespace='products_urls')),
+    path(
+        'basket/',
+        include(arg='basketapp.urls', namespace='basket_urls'),
+    ),
+    path(
+        'admin_custom/',
+        include(arg='adminapp.urls', namespace='admin_custom_urls'),
+    ),
+    path(
+        'social/',
+        include(arg='social_django.urls', namespace='social'),
+    ),
+    path(
+        'order/',
+        include(arg='ordersapp.urls', namespace='order_urls'),
+    ),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT,
+    )
+    import debug_toolbar
+    urlpatterns.append(path('__debug__/', include(debug_toolbar.urls)))
