@@ -1,0 +1,15 @@
+{% extends 'authapp/base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'authapp/css/bootstrap.min.css'%}">
+{% endblock %}
+{% block container %}
+<div class="main_content padding_site">
+    <form class="form-horizontal padding_site" action = "{% url 'auth_urls:register' %}" method = "post">
+        {% csrf_token %}
+        {{ register_form.as_p }}
+        <br>
+        <input class="form-control" type="Submit" value={{submit_label}}>
+    </form>
+</div>
+{% endblock %}

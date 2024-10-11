@@ -1,0 +1,20 @@
+{% extends 'authapp/base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'authapp/css/bootstrap.min.css'%}">
+{% endblock %}
+{% block container %}
+<div class="main_content padding_site">
+    <form class="form-horizontal" action="{% url 'auth_urls:login' %}" method="post">
+        {% csrf_token %}
+        {% if next %}
+            <input type="hidden" name="next" value="{{next}}"><br>
+        {% endif %}
+        <input class="form-control" name="username" placeholder="Имя пользователя">
+        <input class="form-control" name="password" type=password placeholder="Пароль">
+        <input class="basket_button" type="Submit" value="Войти">
+        <a href="{% url 'auth_urls:register' %}" class="basket_button">Зарегистрироваться</a>
+        <a href = "{% url 'social:begin' 'vk-oauth2' %}?next=/" class="basket_button">Вход через ВКонтакте</a>
+    </form>
+</div>
+{% endblock %}

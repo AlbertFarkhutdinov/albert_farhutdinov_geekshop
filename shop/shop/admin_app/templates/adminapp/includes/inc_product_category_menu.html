@@ -1,0 +1,12 @@
+<ul>
+    <li>
+        <a href="{% url 'admin_custom_urls:products' %}">ALL</a>
+    </li>
+    {% for category in product_categories %}
+    <li>
+        <a href="{% url 'admin_custom_urls:products_by_category' category.pk %}">
+            {{ category.name|upper }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>

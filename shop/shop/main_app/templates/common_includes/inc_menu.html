@@ -1,0 +1,74 @@
+{% load static %}
+{% load custom_tags %}
+<div class="header clear_fix">
+    <a href="{% url 'main_urls:featured' %}">
+        <img src="{% static mainapp_context.path_to_common_img|add:'logo.svg'%}" alt='logo'></a>
+    <ul class='menu clear_fix'>
+        {% for link in mainapp_context.main_menu %}
+        <li class='menu_list'>
+            <a href="{% url link.href %}"
+               class='menu_link
+               {% if request.resolver_match.namespace %}
+                    {% if request.resolver_match.namespace in link.href %} menu_link_active {% endif %}
+                {% else %}
+                    {% if request.resolver_match.url_name in link.href %} menu_link_active {% endif %}
+                {% endif %}'>
+                {{ link.name|upper }}
+            </a>
+        </li>
+        {% endfor %}
+        {% if user.is_authenticated %}
+            <li class='menu_list'>
+                <div class="dropdown">
+                    <a class = "dropdown-toggle
+                    menu_link {% if request.resolver_match.namespace == 'auth' %} menu_link_active {% endif %}"
+                       href = "" data-toggle = "dropdown">
+                        {{user.first_name|default:'Пользователь'}}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class = "menu_link {% if request.resolver_match.namespace == 'auth_urls' %}
+                            menu_link_active {% endif %}" href="{% url 'auth_urls:edit' user.pk %}">Edit profile</a>
+                        </li>
+                        <li>
+                            <a class = "menu_link {% if request.resolver_match.namespace == 'order_urls' %}
+                            menu_link_active {% endif %}" href="{% url 'order_urls:orders_list' %}">Your orders</a>
+                        </li>
+                        {% if user.is_superuser %}
+                        <li>
+                            <a class = "menu_link {% if request.resolver_match.url_name == 'admin_url' %}
+                            menu_link_active {% endif %}" href='/admin/'>Admin page</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </li>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <li class='menu_list'>
+            <a class='menu_link' href="{% url 'auth_urls:logout' %}">Log out</a>
+        </li>
+        {% else %}
+        <li class='menu_list'>
+            <a class='menu_link' href="{% url 'auth_urls:login' %}">Log in</a>
+        </li>
+        <li class='menu_list'>
+            <a class='menu_link' href="{% url 'auth_urls:register' %}">Register</a>
+        </li>
+        {% endif %}
+
+        <li class='menu_list'>
+            <a class="menu_ico {% if request.resolver_match.namespace == 'basket' %} menu_link_active {% endif %}"
+               href="{% url 'basket_urls:read' %}">
+                <img src="{% static mainapp_context.path_to_common_img|add:'basket.svg'%}" alt='basket'>
+                <span class="basket_span">({{ mainapp_context.basket_items|basket_total_quantity }})</span>
+            </a>
+        </li>
+        <li class='menu_list'>
+            <a href='#' class='menu_ico'>
+                <img src="{% static mainapp_context.path_to_common_img|add:'search.svg'%}" alt='search'>
+            </a>
+        </li>
+    </ul>
+</div>

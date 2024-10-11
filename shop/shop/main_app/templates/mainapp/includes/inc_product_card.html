@@ -1,0 +1,5 @@
+<div class='product_card'>
+    <a href="{% url 'products_urls:product' product.pk %}" class='product_link' target="_blank">
+        <img src='{{mainapp_context.path_to_media}}{{product.image}}' alt={{product.name}}>
+    </a>
+</div>

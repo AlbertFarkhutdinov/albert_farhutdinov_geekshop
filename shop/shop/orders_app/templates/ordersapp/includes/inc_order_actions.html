@@ -1,0 +1,6 @@
+{% if object.status == 'FM' %}
+    <a class="basket_button" href="{% url 'order_urls:order_forming_complete' object.pk %}">Совершить покупку</a>
+    <a class="basket_button" href="{% url 'order_urls:order_delete' object.pk %}">Удалить</a>
+{% endif %}
+<a class="basket_button" href="{% url 'order_urls:orders_list' %}">К списку заказов</a>
+<a class="basket_button" href="{% url 'main_urls:featured' %}">На главную</a>

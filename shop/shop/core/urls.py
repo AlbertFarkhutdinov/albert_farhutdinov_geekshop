@@ -16,26 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-# from mainapp.views import contacts, history, showroom
+from shop.main_app.views import contacts, history, showroom
 from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('history/', history, name='history_url'),
-    # path('showroom/', showroom, name='showroom_url'),
-    # path('contacts/', contacts, name='contacts_url'),
-    path('', include(arg='mainapp.urls', namespace='main_urls')),
-    path('auth/', include(arg='authapp.urls', namespace='auth_urls')),
-    path('products/', include(arg='mainapp.urls', namespace='products_urls')),
+    path('history/', history, name='history_url'),
+    path('showroom/', showroom, name='showroom_url'),
+    path('contacts/', contacts, name='contacts_url'),
+    path('', include(arg='main_app.urls', namespace='main_urls')),
+    path('auth/', include(arg='auth_app.urls', namespace='auth_urls')),
+    path('products/', include(arg='main_app.urls', namespace='products_urls')),
     path(
         'basket/',
-        include(arg='basketapp.urls', namespace='basket_urls'),
+        include(arg='basket_app.urls', namespace='basket_urls'),
     ),
     path(
         'admin_custom/',
-        include(arg='adminapp.urls', namespace='admin_custom_urls'),
+        include(arg='admin_app.urls', namespace='admin_custom_urls'),
     ),
     path(
         'social/',
@@ -43,7 +43,7 @@ urlpatterns = [
     ),
     path(
         'order/',
-        include(arg='ordersapp.urls', namespace='order_urls'),
+        include(arg='orders_app.urls', namespace='order_urls'),
     ),
 ]
 
