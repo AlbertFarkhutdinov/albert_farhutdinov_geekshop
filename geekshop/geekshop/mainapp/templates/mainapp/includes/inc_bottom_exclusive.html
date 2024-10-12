@@ -1,7 +1,0 @@
-{% load static %}
-<div class='left_part'>{% include mainapp_context.path_to_main_inc|add:'inc_exclusive.html' %}</div>
-<div class='right_part'>
-    {% for product in hot_products %}
-    {% include mainapp_context.path_to_main_inc|add:'inc_product_card.html' %}
-    {% endfor %}
-</div>
