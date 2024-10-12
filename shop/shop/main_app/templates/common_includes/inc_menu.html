@@ -2,9 +2,9 @@
 {% load custom_tags %}
 <div class="header clear_fix">
     <a href="{% url 'main_urls:featured' %}">
-        <img src="{% static mainapp_context.path_to_common_img|add:'logo.svg'%}" alt='logo'></a>
+        <img src="{% static main_app_context.path_to_common_img|add:'logo.svg'%}" alt='logo'></a>
     <ul class='menu clear_fix'>
-        {% for link in mainapp_context.main_menu %}
+        {% for link in main_app_context.main_menu %}
         <li class='menu_list'>
             <a href="{% url link.href %}"
                class='menu_link
@@ -61,13 +61,13 @@
         <li class='menu_list'>
             <a class="menu_ico {% if request.resolver_match.namespace == 'basket' %} menu_link_active {% endif %}"
                href="{% url 'basket_urls:read' %}">
-                <img src="{% static mainapp_context.path_to_common_img|add:'basket.svg'%}" alt='basket'>
-                <span class="basket_span">({{ mainapp_context.basket_items|basket_total_quantity }})</span>
+                <img src="{% static main_app_context.path_to_common_img|add:'basket.svg'%}" alt='basket'>
+                <span class="basket_span">({{ main_app_context.basket_items|basket_total_quantity }})</span>
             </a>
         </li>
         <li class='menu_list'>
             <a href='#' class='menu_ico'>
-                <img src="{% static mainapp_context.path_to_common_img|add:'search.svg'%}" alt='search'>
+                <img src="{% static main_app_context.path_to_common_img|add:'search.svg'%}" alt='search'>
             </a>
         </li>
     </ul>

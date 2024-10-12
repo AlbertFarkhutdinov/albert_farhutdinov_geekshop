@@ -22,12 +22,12 @@
 <div class='featured_new_products_block'>
     {% if request.resolver_match.url_name == 'featured' %}
     {% for product in featured_products %}
-    {% include mainapp_context.path_to_main_inc|add:'inc_product_card.html' %}
+    {% include main_app_context.path_to_main_inc|add:'inc_product_card.html' %}
     {% endfor %}
     {% endif %}
     {% if request.resolver_match.url_name == 'new' %}
     {% for product in new_products %}
-    {% include mainapp_context.path_to_main_inc|add:'inc_product_card.html' %}
+    {% include main_app_context.path_to_main_inc|add:'inc_product_card.html' %}
     {% endfor %}
     {% endif %}
 </div>

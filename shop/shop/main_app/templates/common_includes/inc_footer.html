@@ -12,7 +12,7 @@
             <div class="useful">
                 <h3>Useful Information</h3>
                 <ul class="info_menu">
-                    {% for link in mainapp_context.info_menu %}
+                    {% for link in main_app_context.info_menu %}
                         <li>
                             <a href={{link.href}}>{{link.name|upper}}</a>
                         </li>
@@ -25,7 +25,7 @@
                 <form action="#">
                     <input type="email" placeholder="your email address">
                     <button type="submit" class="email_submit">
-                        <img src="{% static mainapp_context.path_to_common_img|add:'telegram.png'%}" alt="send">
+                        <img src="{% static main_app_context.path_to_common_img|add:'telegram.png'%}" alt="send">
                     </button>
                 </form>
             </div>
@@ -33,7 +33,7 @@
         <div class="footer_bottom">
             <div class="copyright">&copy; Copyright - INTERIOR 2016. All Rights Reserved.</div>
             <div class="socials">
-                {% for link in mainapp_context.socials %}
+                {% for link in main_app_context.socials %}
                 <a href={{link.href}} target="_blank" class="circle">
                     <img src="{% static link.image_source %}" alt={{link.name}}>
                 </a>

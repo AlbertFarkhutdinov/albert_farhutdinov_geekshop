@@ -1,10 +1,10 @@
-{% extends 'mainapp/base.html'%}
+{% extends 'main_app/base.html'%}
 {% load static %}
 
 <body>
     <div class="container" style="padding: 0;">
         {% block header %}
-            {% include ordersapp_context.path_to_common_inc|add:'inc_header.html' %}
+            {% include orders_app_context.path_to_common_inc|add:'inc_header.html' %}
         {% endblock %}
         {% block container %}
         {% endblock %}

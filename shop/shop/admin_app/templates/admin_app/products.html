@@ -1,10 +1,10 @@
-{% extends 'mainapp/base.html'%}
+{% extends 'main_app/base.html'%}
 {% load static %}
 {% block greetings %}
 {% endblock %}
 {% block container %}
 <h2>Категории</h2>
-{% include 'adminapp/includes/inc_product_category_menu.html' %}
+{% include 'admin_app/includes/inc_product_category_menu.html' %}
 <h2>Продукты</h2>
 <a href="{% url 'admin_custom_urls:product_create' %}">Создать новый продукт</a>
 <ul>

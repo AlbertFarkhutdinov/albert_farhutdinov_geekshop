@@ -43,7 +43,7 @@ li {
 
 .slider {
     min-height: 800px;
-    background-image: url(/static/mainapp/img/slider_img.jpg);
+    background-image: url(/static/main_app/img/slider_img.jpg);
     background-size: 100% 100%;
     position: relative;
 }
@@ -173,12 +173,12 @@ li {
 
 .button:hover::after {
     position: absolute;
-    content: url(/static/mainapp/img/arrow.svg);
+    content: url(/static/main_app/img/arrow.svg);
     top: 0px;
     left: 180px;
     width: 8px;
     height: 12px;
-    /*content: url(/static/mainapp/img/arrow.svg);
+    /*content: url(/static/main_app/img/arrow.svg);
     display: inline-block;
     margin-left: 21px;*/
 }
@@ -266,7 +266,7 @@ li {
 }
 
 .explore_all:hover::after {
-    content: url(/static/mainapp/img/arrow.svg);
+    content: url(/static/main_app/img/arrow.svg);
     display: inline-block;
     margin-left: 12px;
 }
@@ -349,13 +349,13 @@ img[alt="watch"]:active {
 }
 
 .left_exclusive {
-    background-image: url(/static/mainapp/img/left_exclusive.jpg);
+    background-image: url(/static/main_app/img/left_exclusive.jpg);
     background-size: 100% 100%;
     width: 50%;
 }
 
 .right_exclusive {
-    background-image: url(/static/mainapp/img/right_exclusive.jpg);
+    background-image: url(/static/main_app/img/right_exclusive.jpg);
     background-size: 100% 100%;
     position: absolute;
     width: 50%;
@@ -423,7 +423,7 @@ img[alt="watch"]:active {
 .hot_deal {
     position: relative;
     height: 800px;
-    background-image: url(/static/mainapp/img/hot_deal.jpg);
+    background-image: url(/static/main_app/img/hot_deal.jpg);
     background-size: 100% 100%;
     padding-top: 287px;
     box-sizing: border-box;
@@ -448,7 +448,7 @@ img[alt="watch"]:active {
 }
 
 .left_part {
-    background-image: url(/static/mainapp/img/bottom_exclusive1.jpg);
+    background-image: url(/static/main_app/img/bottom_exclusive1.jpg);
     background-size: 100% 100%;
     width: 48.71%;
     min-height: 570px;
@@ -492,7 +492,7 @@ img[alt="watch"]:active {
 
 .mobile_app {
     height: 516px;
-    background-image: url(/static/mainapp/img/mobile_app.jpg);
+    background-image: url(/static/main_app/img/mobile_app.jpg);
     background-size: 100% 100%;
     padding-top: 125px;
     box-sizing: border-box;
@@ -923,12 +923,12 @@ img[alt="loading"] {
 
 .basket_button:hover::after {
     position: absolute;
-    content: url(/static/mainapp/img/arrow.svg);
+    content: url(/static/main_app/img/arrow.svg);
     top: 0px;
     right: 30px;
     width: 8px;
     height: 12px;
-    /*content: url(/static/mainapp/img/arrow.svg);
+    /*content: url(/static/main_app/img/arrow.svg);
     display: inline-block;
     margin-left: 21px;*/
 }

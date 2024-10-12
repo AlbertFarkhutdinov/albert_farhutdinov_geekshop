@@ -1,13 +1,13 @@
-{% extends "ordersapp/base.html" %}
+{% extends "orders_app/base.html" %}
 {% load static %}
 {% block container %}
-    {% include ordersapp_context.path_to_orders_inc|add:'inc_order_summary.html' %}
+    {% include orders_app_context.path_to_orders_inc|add:'inc_order_summary.html' %}
     <div class="order_list">
         {% for item in object.order_items.select_related %}
             <div class='product_card' style="display: inline-block;">
-                <a href="{{ordersapp_context.path_to_media}}{{item.product.image}}"
+                <a href="{{orders_app_context.path_to_media}}{{item.product.image}}"
                    class='product_link' target="_blank">
-                    <img src='{{ordersapp_context.path_to_media}}{{item.product.image}}' alt={{product.name}}>
+                    <img src='{{orders_app_context.path_to_media}}{{item.product.image}}' alt={{product.name}}>
                 </a>
                 <div class="description" style="text-align: center;">
                     <span class="category_name">{{ item.product.category.name }}</span>
@@ -18,5 +18,5 @@
             </div>
         {% endfor %}
     </div>
-    {% include ordersapp_context.path_to_orders_inc|add:'inc_order_actions.html' %}
+    {% include orders_app_context.path_to_orders_inc|add:'inc_order_actions.html' %}
 {% endblock %}

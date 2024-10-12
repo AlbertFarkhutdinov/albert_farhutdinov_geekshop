@@ -1,12 +1,12 @@
-{% extends 'mainapp/base.html'%}
+{% extends 'main_app/base.html'%}
 {% load static %}
 {% block container %}
-{% include mainapp_context.path_to_common_inc|add:'inc_header.html' %}
+{% include main_app_context.path_to_common_inc|add:'inc_header.html' %}
 <div class='products_sheet padding_site'>
     <div class='products_block'>
         <div class='product_card'>
-            <a href="{{mainapp_context.path_to_media}}{{product.image}}" class='product_link' target="_blank">
-                <img src='{{mainapp_context.path_to_media}}{{product.image}}' alt={{product.name}}>
+            <a href="{{main_app_context.path_to_media}}{{product.image}}" class='product_link' target="_blank">
+                <img src='{{main_app_context.path_to_media}}{{product.image}}' alt={{product.name}}>
             </a>
             <div class="description">
                 <h3 class="product_name">{{ product.name }}</h3>

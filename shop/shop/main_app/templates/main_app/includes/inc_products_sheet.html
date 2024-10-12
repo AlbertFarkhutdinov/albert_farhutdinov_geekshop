@@ -1,11 +1,11 @@
 {% load static %}
-{% include mainapp_context.path_to_main_inc|add:'inc_product_category_menu.html' %}
+{% include main_app_context.path_to_main_inc|add:'inc_product_category_menu.html' %}
 <div class='products_block'>
     {% for product in products %}
-    {% include mainapp_context.path_to_main_inc|add:'inc_product_card.html' %}
+    {% include main_app_context.path_to_main_inc|add:'inc_product_card.html' %}
 <!--    <div class='product_card'>-->
 <!--        <a href="{% url 'products_urls:product' product.pk %}" class='product_link' target="_blank">-->
-<!--            <img src='{{mainapp_context.path_to_media}}{{product.image}}' alt={{product.name}}>-->
+<!--            <img src='{{main_app_context.path_to_media}}{{product.image}}' alt={{product.name}}>-->
 <!--        </a>-->
 <!--    </div>-->
     {% endfor %}

@@ -1,10 +1,10 @@
-{% extends 'authapp/base.html' %}
+{% extends 'auth_app/base.html' %}
 {% load staticfiles %}
 {% block container %}
     {% if user %}
         <h3>Поздравляем!</h3>
         <br>
-        <h4>Пользователь {{mainapp_context.username}} подтвержден.</h4>
+        <h4>Пользователь {{main_app_context.username}} подтвержден.</h4>
     {% else %}
         <h3>Верификация не пройдена.</h3>
     {% endif %}

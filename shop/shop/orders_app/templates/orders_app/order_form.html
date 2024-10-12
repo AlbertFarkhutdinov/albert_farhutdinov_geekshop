@@ -1,8 +1,8 @@
-{% extends "ordersapp/base.html" %}
+{% extends "orders_app/base.html" %}
 {% load static %}
 {% load cache %}
 {% block container %}
-    {% include ordersapp_context.path_to_orders_inc|add:'inc_order_summary.html' %}
+    {% include orders_app_context.path_to_orders_inc|add:'inc_order_summary.html' %}
     <div class="order_form">
         <form action="" method="post">
             {% csrf_token %}
@@ -52,7 +52,7 @@
             <button type="submit" value="Сохранить" class="basket_button">
                 Save
             </button>
-            {% include ordersapp_context.path_to_orders_inc|add:'inc_order_actions.html' %}
+            {% include orders_app_context.path_to_orders_inc|add:'inc_order_actions.html' %}
         </form>
     </div>
 {% endblock %}
