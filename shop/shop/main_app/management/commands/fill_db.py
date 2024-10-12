@@ -4,15 +4,16 @@ from shop.auth_app.models import ShopUser
 from configparser import RawConfigParser
 from django.conf import settings
 import json
-import os
-JSON_PATH = 'json'
-local_config_path = os.path.join(settings.BASE_DIR, 'conf', 'local.conf')
+
+
+JSON_PATH = settings.JSON_DIR
+local_config_path = settings.CONF_DIR.joinpath('local.conf')
 config = RawConfigParser()
 config.read(local_config_path)
 
 
 def load_from_json(file_name):
-    with open(os.path.join(JSON_PATH, file_name + '.json'), 'r') as infile:
+    with JSON_PATH.joinpath(file_name).with_suffix('.json').open() as infile:
         return json.load(infile)
 
 
@@ -38,9 +39,11 @@ class Command(BaseCommand):
 
         # Создаем суперпользователя при помощи менеджера модели
         ShopUser.objects.all().delete()
-        ShopUser.objects.create_superuser(username=config.get('superuser', 'username'),
-                                          email=config.get('superuser', 'email'),
-                                          password=config.get('superuser', 'password'),
-                                          age=config.getint('superuser', 'age'),
-                                          first_name=config.get('superuser', 'first_name')
-                                          )
+        section_name = 'superuser'
+        ShopUser.objects.create_superuser(
+            username=config.get(section=section_name, option='username'),
+            email=config.get(section=section_name, option='email'),
+            password=config.get(section=section_name, option='password'),
+            age=config.getint(section=section_name, option='age'),
+            first_name=config.get(section=section_name, option='first_name'),
+        )

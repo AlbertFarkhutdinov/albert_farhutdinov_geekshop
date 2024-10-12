@@ -18,7 +18,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 JSON_DIR = BASE_DIR.joinpath('json')
-local_config_path = BASE_DIR.joinpath('conf', 'local.conf')
+CONF_DIR = BASE_DIR.joinpath('conf')
+local_config_path = CONF_DIR.joinpath('local.conf')
 config = RawConfigParser()
 config.read(local_config_path)
 
@@ -44,13 +45,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'social_django',
+    'django_extensions',
     'main_app.apps.MainAppConfig',
     'auth_app.apps.AuthAppConfig',
     'basket_app.apps.BasketAppConfig',
     'admin_app.apps.AdminAppConfig',
-    'social_django',
     'orders_app.apps.OrdersAppConfig',
-    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -136,6 +137,8 @@ DATABASES = {
     },
 }
 
+AUTH_USER_MODEL = 'auth_app.ShopUser'
+LOGIN_URL = '/auth/login/'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
