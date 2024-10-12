@@ -7,7 +7,9 @@ class ProductCategory(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+        ordering = ['name']
 
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField(verbose_name='Имя', max_length=64, unique=True)
     description = models.TextField(verbose_name='Описание', blank=True)
     is_active = models.BooleanField(db_index=True, verbose_name="Активный?", default=True)
