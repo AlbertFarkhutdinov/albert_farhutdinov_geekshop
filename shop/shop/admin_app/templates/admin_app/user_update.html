@@ -10,10 +10,10 @@
 </form>
 {% if object.pk %}
 <br>
-<a href="{% url 'admin_custom_urls:user_delete' object.pk %}">Удалить</a>
+<a href="{% url 'admin_custom_urls:user_delete' object.pk %}">Delete</a>
 {% endif %}
 <br>
-<a href="{% url 'admin_custom_urls:users' %}"> <-- Ко всем пользователям</a>
+<a href="{% url 'admin_custom_urls:users' %}"> <-- To all products</a>
 {% endblock %}
 {% block footer %}
 {% endblock %}

@@ -3,11 +3,11 @@
 {% block greetings %}
 {% endblock %}
 {% block container %}
-<h2>Администрирование сайта</h2>
+<h2>Admin Page</h2>
 <ul>
-    <li><a href="{% url 'admin_custom_urls:categories' %}">Категории продуктов</a></li>
-    <li><a href="{% url 'admin_custom_urls:products' %}">Продукты</a></li>
-    <li><a href="{% url 'admin_custom_urls:users' %}">Пользователи</a></li>
+    <li><a href="{% url 'admin_custom_urls:categories' %}">Product Categories</a></li>
+    <li><a href="{% url 'admin_custom_urls:products' %}">Products</a></li>
+    <li><a href="{% url 'admin_custom_urls:users' %}">Users</a></li>
 </ul>
 {% endblock %}
 {% block footer %}

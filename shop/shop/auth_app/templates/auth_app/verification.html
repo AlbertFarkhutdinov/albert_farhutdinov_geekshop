@@ -2,11 +2,11 @@
 {% load staticfiles %}
 {% block container %}
     {% if user %}
-        <h3>Поздравляем!</h3>
+        <h3>Congratulations!</h3>
         <br>
-        <h4>Пользователь {{main_app_context.username}} подтвержден.</h4>
+        <h4>User {{main_app_context.username}} is verified.</h4>
     {% else %}
-        <h3>Верификация не пройдена.</h3>
+        <h3>Verification is failed.</h3>
     {% endif %}
     <br>
     <a href="{% url 'main_urls:featured' %}" class='basket_button'>Home page</a>

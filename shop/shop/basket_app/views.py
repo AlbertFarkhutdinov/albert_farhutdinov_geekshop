@@ -64,7 +64,6 @@ def edit(request, pk):
         return HttpResponse('Ok!')
 
 
-# # Начало кэша
 # def get_basket_slot(user, product_pk):
 #     product = get_object_or_404(Product, pk=product_pk)
 #     if settings.LOW_CACHE:

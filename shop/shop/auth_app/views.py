@@ -19,15 +19,15 @@ def register(request):
         if register_form.is_valid():
             user = register_form.save()
             if send_verify_mail(user):
-                print('Сообщение подтверждения регистрации отправлено')
+                print('Verification mail is sent.')
                 return HttpResponseRedirect(reverse('auth_urls:login'))
             else:
-                print('Ошибка отправки сообщения подтверждения регистрации')
+                print('Verification mail sending is failed.')
                 return HttpResponseRedirect(reverse('auth_urls:login'))
     context = {
-        'title': 'Регистрация',
+        'title': 'Registration',
         'register_form': register_form,
-        'submit_label': 'Зарегистрироваться'
+        'submit_label': 'Register'
     }
     return render(request, 'auth_app/register.html', context)
 
@@ -46,7 +46,7 @@ def login(request):
 
     get_next = request.GET.get('next')
     context = {
-        'title': 'Вход',
+        'title': 'Login',
         'next': get_next
     }
     return render(request, 'auth_app/login.html', context)
@@ -72,7 +72,7 @@ def edit(request, pk):
     context = {
         'edit_form': edit_form,
         'profile_form': profile_form,
-        'submit_label': 'Применить',
+        'submit_label': 'Apply',
     }
     page_name(context, 'Edit profile')
     return render(request, 'auth_app/edit.html', context)
@@ -80,10 +80,11 @@ def edit(request, pk):
 
 def send_verify_mail(user):
     verify_link = reverse('auth_urls:verify', args=[user.email, user.activation_key])
-    title = f'Подтверждение учетной записи {user.username}'
-    message = (f'Для подтверждения учетной записи {user.username} на портале ' +
-               f'{settings.DOMAIN_NAME} перейдите по ссылке:\n' +
-               f'{settings.DOMAIN_NAME}{verify_link}')
+    title = f'Account Verification {user.username}'
+    message = (
+        f'Follow the link {settings.DOMAIN_NAME}{verify_link}'
+        f'to verify account {user.username}.'
+    )
     return send_mail(
         title,
         message,
@@ -119,6 +120,6 @@ def verify(request, email, activation_key):
 #         # user = super(EditView, self).get_form_kwargs()['instance']
 #         context = super(EditView, self).get_context_data(**kwargs)
 #         page_name(context, 'Edit profile')
-#         context['submit_label'] = 'Применить'
+#         context['submit_label'] = 'Apply'
 #         # context['common_context'] = common_context(user)
 #         return context

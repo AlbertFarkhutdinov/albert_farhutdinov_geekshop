@@ -27,11 +27,11 @@ def save_user_profile(backend, user, response, *args, **kwargs):
                                 None))
         resp_1 = requests.get(api_url_1)
         if resp_1.status_code != 200:
-            print('Сервер VK API ответил ошибкой', resp_1, sep='\n')
+            print('Error from VK API', resp_1, sep='\n')
             return
 
         data_1 = resp_1.json()['response'][0]
-        print('Ответ от VK API: ', data_1, sep='\n')
+        print('Answer from VK API: ', data_1, sep='\n')
         if data_1['about'] and not user.shopuserprofile.about_me:
             user.shopuserprofile.about_me = data_1['about']
         if data_1['sex']:

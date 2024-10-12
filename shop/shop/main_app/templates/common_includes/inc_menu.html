@@ -23,7 +23,7 @@
                     <a class = "dropdown-toggle
                     menu_link {% if request.resolver_match.namespace == 'auth' %} menu_link_active {% endif %}"
                        href = "" data-toggle = "dropdown">
-                        {{user.first_name|default:'Пользователь'}}
+                        {{user.first_name|default:'User'}}
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">

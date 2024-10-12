@@ -73,7 +73,6 @@ class OrderItemsCreate(IsAuthenticatedUser, CreateView):
             if order_items.is_valid():
                 order_items.instance = self.object
                 order_items.save()
-        # удаляем пустой заказ
         if self.object.get_total_cost() == 0:
             self.object.delete()
         return super(OrderItemsCreate, self).form_valid(form)
@@ -107,7 +106,6 @@ class OrderItemsUpdate(IsAuthenticatedUser, UpdateView):
             if order_items.is_valid():
                 order_items.instance = self.object
                 order_items.save()
-        # удаляем пустой заказ
         if self.object.get_summary()['total_cost'] == 0:
             self.object.delete()
         return super(OrderItemsUpdate, self).form_valid(form)
@@ -123,7 +121,7 @@ class OrderRead(IsAuthenticatedUser, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(OrderRead, self).get_context_data(**kwargs)
-        page_name(context, 'Заказ/Просмотр')
+        page_name(context, 'Order/Watch')
         return context
 
 
@@ -164,7 +162,6 @@ def get_product_price(request, pk):
             return JsonResponse({'price': 0})
 
 
-# Начало кэша
 def get_order_list(user):
     if settings.LOW_CACHE:
         key = 'order_list'

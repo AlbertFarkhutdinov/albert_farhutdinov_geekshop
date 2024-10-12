@@ -593,9 +593,9 @@ img[alt="watch"]:active {
 
 .info_menu {
     -moz-column-count: 2;
-    /* Для Firefox */
+    /* Firefox */
     -webkit-column-count: 2;
-    /* Для Safari и Chrome */
+    /* Safari, Chrome */
     column-count: 2;
 }
 

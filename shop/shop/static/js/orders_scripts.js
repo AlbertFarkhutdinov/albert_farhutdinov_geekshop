@@ -59,8 +59,8 @@ window.onload = function() {
     }
 
     $('.formset_row').formset({
-        addText: 'Добавить продукт',
-        deleteText: 'Удалить',
+        addText: 'Add product',
+        deleteText: 'Delete',
         prefix: 'order_items',
         removed: deleteOrderItem
     });
@@ -78,7 +78,7 @@ window.onload = function() {
                         if (isNaN(quantity_arr[order_item_num])){
                             quantity_arr[order_item_num] = 0;
                         }
-                        var price_html = '<span>' + data.price.toString().replace('.', ',') + '</span>&nbsp;руб.';
+                        var price_html = '<span>' + data.price.toString().replace('.', ',') + '</span>&nbsp;rub.';
                         var current_tr = $('.order_form table').find('tr:eq(' + (order_item_num + 1 ) + ')');
                         current_tr.find('td:eq(2)').html(price_html);
                         if (isNaN(current_tr.find('input[type="number"]').val())) {

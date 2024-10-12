@@ -3,10 +3,10 @@
 {% block greetings %}
 {% endblock %}
 {% block container %}
-<h2>Категории</h2>
+<h2>Categories</h2>
 {% include 'admin_app/includes/inc_product_category_menu.html' %}
-<h2>Продукты</h2>
-<a href="{% url 'admin_custom_urls:product_create' %}">Создать новый продукт</a>
+<h2>Products</h2>
+<a href="{% url 'admin_custom_urls:product_create' %}">Create new products</a>
 <ul>
     {% for object in object_list %}
     <li>
@@ -14,7 +14,7 @@
     </li>
     {% endfor %}
 </ul>
-<a href="{% url 'admin_custom_urls:index' %}">На страницу администратора</a>
+<a href="{% url 'admin_custom_urls:index' %}">Admin Page</a>
 {% endblock %}
 {% block footer %}
 {% endblock %}

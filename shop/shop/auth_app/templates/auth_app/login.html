@@ -10,11 +10,11 @@
         {% if next %}
             <input type="hidden" name="next" value="{{next}}"><br>
         {% endif %}
-        <input class="form-control" name="username" placeholder="Имя пользователя">
-        <input class="form-control" name="password" type=password placeholder="Пароль">
-        <input class="basket_button" type="Submit" value="Войти">
-        <a href="{% url 'auth_urls:register' %}" class="basket_button">Зарегистрироваться</a>
-        <a href = "{% url 'social:begin' 'vk-oauth2' %}?next=/" class="basket_button">Вход через ВКонтакте</a>
+        <input class="form-control" name="username" placeholder="Username">
+        <input class="form-control" name="password" type=password placeholder="Password">
+        <input class="basket_button" type="Submit" value="Login">
+        <a href="{% url 'auth_urls:register' %}" class="basket_button">Register</a>
+        <a href = "{% url 'social:begin' 'vk-oauth2' %}?next=/" class="basket_button">Login with VK</a>
     </form>
 </div>
 {% endblock %}

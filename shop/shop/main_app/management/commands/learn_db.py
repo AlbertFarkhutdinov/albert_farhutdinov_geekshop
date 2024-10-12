@@ -8,8 +8,8 @@
 # class Command(BaseCommand):
 #     def handle(self, *args, **options):
 #         test_products = Product.objects.filter(
-#             Q(category__name='офис') |
-#             Q(category__name='модерн')
+#             Q(category__name='office') |
+#             Q(category__name='modern')
 #         )
 #         # print(len(test_products))
 #         print(test_products)
@@ -60,6 +60,6 @@ class Command(BaseCommand):
         ).order_by('action_order', 'total_price').select_related()
 
         for order_item in test_orders:
-            print(f'{order_item.action_order}| Заказ №{order_item.pk: 3.0f}| {order_item.product.name}| '
-                  f'Скидка: {abs(order_item.total_price): .2f} руб.| '
+            print(f'{order_item.action_order}| Order #{order_item.pk: 3.0f}| {order_item.product.name}| '
+                  f'Discount: {abs(order_item.total_price): .2f} rub.| '
                   f'{order_item.order.updated - order_item.order.created} ')

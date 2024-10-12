@@ -8,7 +8,6 @@ from django.core.cache import cache
 # from django.http import JsonResponse
 
 
-# Контроллеры
 def main(request):
     all_products = get_products()
     keys = [item.pk for item in all_products]
@@ -79,7 +78,6 @@ def product(request, pk):
     return render(request, 'main_app/product.html', context)
 
 
-# Начало кэша
 def get_products():
     if settings.LOW_CACHE:
         key = 'products'

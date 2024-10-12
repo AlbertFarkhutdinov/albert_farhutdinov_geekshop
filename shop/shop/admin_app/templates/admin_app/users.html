@@ -3,8 +3,8 @@
 {% block greetings %}
 {% endblock %}
 {% block container %}
-<h2>Пользователи</h2>
-<a href="{% url 'admin_custom_urls:user_create' %}">Создать нового пользователя</a>
+<h2>Users</h2>
+<a href="{% url 'admin_custom_urls:user_create' %}">Create new user</a>
 <ul>
     {% for object in object_list %}
     <li>
@@ -14,7 +14,7 @@
     </li>
     {% endfor %}
 </ul>
-<a href="{% url 'admin_custom_urls:index' %}">На страницу администратора</a>
+<a href="{% url 'admin_custom_urls:index' %}">To Admin Page</a>
 {% endblock %}
 {% block footer %}
 {% endblock %}

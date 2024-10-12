@@ -12,8 +12,8 @@ class BasketSlotInline(admin.TabularInline):
 
 class ShopUserWithBasket(ShopUser):
     class Meta:
-        verbose_name = 'Пользователь с корзиной'
-        verbose_name_plural = 'Пользователи с корзиной'
+        verbose_name = 'User with basket'
+        verbose_name_plural = 'Users with basket'
         proxy = True
 
 
@@ -31,10 +31,10 @@ class ShopUserWithBasketAdmin(admin.ModelAdmin):
         basket = instance.basket.all()
         return sum(list(map(lambda basket_slot: basket_slot.quantity, basket)))
 
-    get_basket_quantity.short_description = 'Товаров в корзине'
+    get_basket_quantity.short_description = 'Items in basket'
 
     def get_basket_cost(self, instance):
         basket = BasketSlot.objects.filter(user=instance)
         return sum(list(map(lambda basket_slot: basket_slot.cost, basket)))
 
-    get_basket_cost.short_description = 'Стоимость корзины'
+    get_basket_cost.short_description = 'Basket Cost'

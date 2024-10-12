@@ -21,26 +21,26 @@ class Order(models.Model):
     CANCEL = 'CNC'
 
     ORDER_STATUS_CHOICES = (
-        (FORMING, 'формируется'),
-        (SENT_TO_PROCEED, 'отправлен в обработку'),
-        (PAID, 'оплачен'),
-        (PROCEEDED, 'обрабатывается'),
-        (READY, 'готов к выдаче'),
-        (CANCEL, 'отменен'),
+        (FORMING, 'forming'),
+        (SENT_TO_PROCEED, 'sent to proceed'),
+        (PAID, 'paid'),
+        (PROCEEDED, 'proceeded'),
+        (READY, 'ready'),
+        (CANCEL, 'cancel'),
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    created = models.DateTimeField(verbose_name='Время создания', auto_now_add=True)
-    updated = models.DateTimeField(verbose_name='Время обновления', auto_now=True)
-    status = models.CharField(verbose_name='Статус', max_length=3, choices=ORDER_STATUS_CHOICES, default=FORMING)
-    is_active = models.BooleanField(verbose_name='Активен', default=True)
+    created = models.DateTimeField(verbose_name='Creating Time', auto_now_add=True)
+    updated = models.DateTimeField(verbose_name='Update Time', auto_now=True)
+    status = models.CharField(verbose_name='Status', max_length=3, choices=ORDER_STATUS_CHOICES, default=FORMING)
+    is_active = models.BooleanField(verbose_name='Is active?', default=True)
 
     class Meta:
         ordering = ('-created',)
-        verbose_name = 'Заказ'
-        verbose_name_plural = 'Заказы'
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
 
     def __str__(self):
-        return f'Текущий заказ: {self.pk}'
+        return f'Current order: {self.pk}'
 
     def get_summary(self):
         items = self.order_items.select_related()
@@ -61,7 +61,6 @@ class Order(models.Model):
     # def get_total_cost(self):
     #     return sum(list(map(lambda x: x.quantity * x.product.price, self.get_items())))
 
-    # переопределяем метод, удаляющий объект
     def delete(self):
         items = self.get_items()
         for item in items:
@@ -71,26 +70,26 @@ class Order(models.Model):
         self.save()
 
     def __str__(self):
-        return f'Заказ №{self.pk} от {self.created}'
+        return f'Order #{self.pk}; {self.created}'
 
 
 class OrderItem(models.Model):
     objects = OrderItemQuerySet.as_manager()
 
     class Meta:
-        verbose_name = 'Элемент заказа'
-        verbose_name_plural = 'Элементы заказа'
+        verbose_name = 'Order Item'
+        verbose_name_plural = 'Order Items'
 
     order = models.ForeignKey(Order, related_name="order_items", on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, verbose_name='Продукт', on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(verbose_name='Количество', default=0)
+    product = models.ForeignKey(Product, verbose_name='Product', on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(verbose_name='Quantity', default=0)
 
     def get_product_cost(self):
         return self.product.price * self.quantity
 
     def __str__(self):
         order = self.order
-        return f'{self.product.name} (Заказ №{order.pk} от {order.created})'
+        return f'{self.product.name} (Order #{order.pk}; {order.created})'
 
     @staticmethod
     def get_items(user):

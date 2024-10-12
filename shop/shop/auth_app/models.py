@@ -8,11 +8,11 @@ from django.dispatch import receiver
 
 class ShopUser(AbstractUser):
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = 'Shop user'
+        verbose_name_plural = 'Shop users'
 
     avatar = models.ImageField(upload_to='users_avatars', blank=True)
-    age = models.PositiveIntegerField(verbose_name='Возраст', default=18)
+    age = models.PositiveIntegerField(verbose_name='Age', default=18)
     activation_key = models.CharField(max_length=128, blank=True)
     activation_key_expires = models.DateTimeField(default=(now() + timedelta(hours=48)))
 
@@ -29,19 +29,19 @@ class ShopUser(AbstractUser):
 class ShopUserProfile(models.Model):
     objects = models.Manager()
     MALE = 'M'
-    FEMALE = 'W'
+    FEMALE = 'F'
 
     GENDER_CHOICES = (
-        (MALE, 'М'),
-        (FEMALE, 'Ж'),
+        (MALE, 'M'),
+        (FEMALE, 'F'),
     )
     user = models.OneToOneField(ShopUser, unique=True, null=False, db_index=True, on_delete=models.CASCADE)
-    tag_line = models.CharField(verbose_name='Теги', max_length=128, blank=True)
-    about_me = models.TextField(verbose_name='О себе', max_length=512, blank=True)
-    gender = models.CharField(verbose_name='Пол', max_length=1, choices=GENDER_CHOICES, blank=True)
-    vk_page = models.CharField(verbose_name='URL-адрес аккаунта ВК', max_length=128, blank=True)
-    country = models.CharField(verbose_name='Страна', max_length=128, blank=True)
-    city = models.CharField(verbose_name='Город', max_length=128, blank=True)
+    tag_line = models.CharField(verbose_name='Tags', max_length=128, blank=True)
+    about_me = models.TextField(verbose_name='About Me', max_length=512, blank=True)
+    gender = models.CharField(verbose_name='Gender', max_length=1, choices=GENDER_CHOICES, blank=True)
+    vk_page = models.CharField(verbose_name='VK account', max_length=128, blank=True)
+    country = models.CharField(verbose_name='Country', max_length=128, blank=True)
+    city = models.CharField(verbose_name='City', max_length=128, blank=True)
 
     @receiver(post_save, sender=ShopUser)
     def create_user_profile(sender, instance, created, *args, **kwargs):

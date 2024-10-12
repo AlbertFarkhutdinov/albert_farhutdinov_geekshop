@@ -15,14 +15,14 @@ class BasketSlot(models.Model):
     objects = BasketQuerySet.as_manager()
 
     class Meta:
-        verbose_name = 'Слот корзины'
-        verbose_name_plural = 'Слоты корзины'
+        verbose_name = 'Basket Slot'
+        verbose_name_plural = 'Basket slots'
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='basket')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(verbose_name='Количество', default=1)
-    created = models.DateTimeField(verbose_name='Время создания', auto_now_add=True)
-    updated = models.DateTimeField(verbose_name='Время последнего изменения', auto_now=True)
+    quantity = models.PositiveIntegerField(verbose_name='Quantity', default=1)
+    created = models.DateTimeField(verbose_name='Creating Time', auto_now_add=True)
+    updated = models.DateTimeField(verbose_name='Update Time', auto_now=True)
 
     def __str__(self):
         return f'{self.user.username} - {self.product.name}'

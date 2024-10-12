@@ -17,7 +17,7 @@ from django.db.models import F
 @user_passes_test(lambda u: u.is_superuser)
 def main_admin_page(request):
     context = {
-        'title': 'Администрирование сайта'
+        'title': 'Admin Page'
     }
     return render(request, 'admin_app/index.html', context)
 
@@ -33,7 +33,7 @@ class ProductListView(IsSuperUserView, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductListView, self).get_context_data()
-        context['title'] = 'Список продуктов'
+        context['title'] = 'Product List'
         context['product_categories'] = ProductCategory.objects.all()
         return context
 
@@ -51,7 +51,7 @@ class CategoryListView(IsSuperUserView, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(CategoryListView, self).get_context_data()
-        context['title'] = 'Категории продуктов'
+        context['title'] = 'Product Categories'
         return context
 
 
@@ -61,7 +61,7 @@ class UserListView(IsSuperUserView, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(UserListView, self).get_context_data()
-        context['title'] = 'Пользователи'
+        context['title'] = 'Users'
         return context
 
 
@@ -82,8 +82,8 @@ class ProductCreateView(IsSuperUserView, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductCreateView, self).get_context_data()
-        context['title'] = 'Создание нового продукта'
-        context['button_label'] = 'Создать'
+        context['title'] = 'New Item Creating'
+        context['button_label'] = 'Create'
         return context
 
     def get_success_url(self):
@@ -103,8 +103,8 @@ class CategoryCreateView(IsSuperUserView, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoryCreateView, self).get_context_data()
-        context['title'] = 'Создание новой категории'
-        context['button_label'] = 'Создать'
+        context['title'] = 'New Item Creating'
+        context['button_label'] = 'Create'
         return context
 
 
@@ -116,8 +116,8 @@ class UserCreateView(IsSuperUserView, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(UserCreateView, self).get_context_data()
-        context['title'] = 'Создание нового пользователя'
-        context['button_label'] = 'Создать'
+        context['title'] = 'New Item Creating'
+        context['button_label'] = 'Create'
         return context
 
 
@@ -128,8 +128,8 @@ class ProductUpdateView(IsSuperUserView, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductUpdateView, self).get_context_data()
-        context['title'] = 'Редактирование продукта'
-        context['button_label'] = 'Применить'
+        context['title'] = 'Product Update'
+        context['button_label'] = 'Apply'
         return context
 
     def get_success_url(self):
@@ -146,7 +146,7 @@ class CategoryUpdateView(IsSuperUserView, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.name
-        context['button_label'] = 'Применить'
+        context['button_label'] = 'Apply'
         return context
 
     def form_valid(self, form):
@@ -167,7 +167,7 @@ class UserUpdateView(IsSuperUserView, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UserUpdateView, self).get_context_data()
         context['title'] = self.object.username
-        context['button_label'] = 'Применить'
+        context['button_label'] = 'Apply'
         return context
 
 
@@ -178,7 +178,7 @@ class ProductDeleteView(IsSuperUserView, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductDeleteView, self).get_context_data()
-        context['title'] = 'Удаление продукта'
+        context['title'] = 'Delete Product'
         context['cancel_page'] = 'admin_custom_urls:products'
 
 
@@ -189,7 +189,7 @@ class CategoryDeleteView(IsSuperUserView, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoryDeleteView, self).get_context_data()
-        context['title'] = 'Удаление категории'
+        context['title'] = 'Delete Category'
         context['cancel_page'] = 'admin_custom_urls:categories'
 
 
@@ -200,7 +200,7 @@ class UserDeleteView(IsSuperUserView, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(UserDeleteView, self).get_context_data()
-        context['title'] = 'Удаление пользователя'
+        context['title'] = 'Delete User'
         context['cancel_page'] = self.success_url
 
 
