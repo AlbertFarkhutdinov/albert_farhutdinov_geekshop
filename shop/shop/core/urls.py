@@ -26,9 +26,18 @@ urlpatterns = [
     path('history/', history, name='history_url'),
     path('showroom/', showroom, name='showroom_url'),
     path('contacts/', contacts, name='contacts_url'),
-    path('', include(arg='main_app.urls', namespace='main_urls')),
-    path('auth/', include(arg='auth_app.urls', namespace='auth_urls')),
-    path('products/', include(arg='main_app.urls', namespace='products_urls')),
+    path(
+        '',
+        include(arg='main_app.urls', namespace='main_urls'),
+    ),
+    path(
+        'auth/',
+        include(arg='auth_app.urls', namespace='auth_urls'),
+    ),
+    path(
+        'products/',
+        include(arg='main_app.urls', namespace='products_urls'),
+    ),
     path(
         'basket/',
         include(arg='basket_app.urls', namespace='basket_urls'),

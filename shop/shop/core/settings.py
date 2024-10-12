@@ -130,7 +130,9 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': config.get(section='db', option='DATABASE_ENGINE'),
-        'NAME': BASE_DIR.joinpath(config.get(section='db', option='DATABASE_NAME')),
+        'NAME': BASE_DIR.joinpath(
+            config.get(section='db', option='DATABASE_NAME'),
+        ),
     },
 }
 
