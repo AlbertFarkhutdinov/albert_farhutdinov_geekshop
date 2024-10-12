@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.contrib import auth
 from shop.auth_app.forms import ShopUserRegisterForm, ShopUserEditForm, ShopUserProfileEditForm
-from .models import ShopUser
+from shop.auth_app.models import ShopUser
 from shop.main_app.common_context import page_name
 from django.core.mail import send_mail
 from django.conf import settings

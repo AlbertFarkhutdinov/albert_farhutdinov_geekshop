@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
-from .models import ShopUser, ShopUserProfile
+from shop.auth_app.models import ShopUser, ShopUserProfile
 import random
 import hashlib
 
