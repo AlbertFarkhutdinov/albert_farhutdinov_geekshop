@@ -12,14 +12,23 @@ from django.core.cache import cache
 def main(request):
     all_products = get_products()
     keys = [item.pk for item in all_products]
-    context = {'products': all_products,
-               'new_products': all_products.filter(is_new=True),
-               'featured_products': all_products.filter(is_featured=True),
-               'hot_products': all_products.filter(is_hot=True),
-               'trending_products': all_products.filter(pk__lte=min(keys) + 5)
-               }
-    page_name(context, 'Home page')
-    return render(request, 'main_app/index.html', context)
+    if keys:
+        pk__lte = min(keys) + 5
+    else:
+        pk__lte = 5
+    context = {
+        'products': all_products,
+        'new_products': all_products.filter(is_new=True),
+        'featured_products': all_products.filter(is_featured=True),
+        'hot_products': all_products.filter(is_hot=True),
+        'trending_products': all_products.filter(pk__lte=pk__lte)
+    }
+    page_name(context, name='Home page')
+    return render(
+        request=request,
+        template_name='main_app/index.html',
+        context=context,
+    )
 
 
 def products(request, pk=None):
