@@ -1,8 +1,10 @@
-from django.shortcuts import render, get_object_or_404
-from shop.main_app.models import Product, ProductCategory
-from shop.main_app.common_context import page_name
 from django.conf import settings
 from django.core.cache import cache
+from django.shortcuts import get_object_or_404, render
+
+from shop.main_app.common_context import page_name
+from shop.main_app.models import Product, ProductCategory
+
 # from django.template.loader import render_to_string
 # from django.views.decorators.cache import cache_page
 # from django.http import JsonResponse
@@ -20,7 +22,7 @@ def main(request):
         'new_products': all_products.filter(is_new=True),
         'featured_products': all_products.filter(is_featured=True),
         'hot_products': all_products.filter(is_hot=True),
-        'trending_products': all_products.filter(pk__lte=pk__lte)
+        'trending_products': all_products.filter(pk__lte=pk__lte),
     }
     page_name(context, name='Home page')
     return render(
@@ -83,11 +85,17 @@ def get_products():
         key = 'products'
         cache_products = cache.get(key)
         if cache_products is None:
-            cache_products = Product.objects.filter(is_active=True, category__is_active=True).select_related('category')
+            cache_products = Product.objects.filter(
+                is_active=True,
+                category__is_active=True,
+            ).select_related('category')
             cache.set(key, cache_products)
         return cache_products
     else:
-        return Product.objects.filter(is_active=True, category__is_active=True).select_related('category')
+        return Product.objects.filter(
+            is_active=True,
+            category__is_active=True,
+        ).select_related('category')
 
 
 def get_categories():
@@ -107,11 +115,19 @@ def get_products_in_category(pk):
         key = f'products_in_category_{pk}'
         cache_products = cache.get(key)
         if cache_products is None:
-            cache_products = Product.objects.filter(category__pk=pk, is_active=True, category__is_active=True)
+            cache_products = Product.objects.filter(
+                category__pk=pk,
+                is_active=True,
+                category__is_active=True,
+            )
             cache.set(key, cache_products)
         return cache_products
     else:
-        return Product.objects.filter(category__pk=pk, is_active=True, category__is_active=True)
+        return Product.objects.filter(
+            category__pk=pk,
+            is_active=True,
+            category__is_active=True,
+        )
 
 
 def get_cache_object(model, key_word, pk):
@@ -134,7 +150,7 @@ def get_product(pk):
     return get_cache_object(model=Product, key_word='product', pk=pk)
 
 
-# # AJAX
+# AJAX
 # def products_ajax(request, pk=None):
 #     if request.is_ajax():
 #         product_categories = get_links_menu()
@@ -152,5 +168,9 @@ def get_product(pk):
 #                 'product_categories': product_categories,
 #                 'category': _category,
 #             }
-#             result = render_to_string('main_app/includes/inc_products_sheet.html', context=content, request=request)
+#             result = render_to_string(
+#                 'main_app/includes/inc_products_sheet.html',
+#                 context=content,
+#                 request=request,
+#             )
 #             return JsonResponse({'result': result})

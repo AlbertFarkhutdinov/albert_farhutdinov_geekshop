@@ -1,8 +1,9 @@
+from django.conf import settings
+from django.core.management import call_command
 from django.test import TestCase
 from django.test.client import Client
+
 from shop.auth_app.models import ShopUser
-from django.core.management import call_command
-from django.conf import settings
 
 
 class TestUserManagement(TestCase):
@@ -10,10 +11,22 @@ class TestUserManagement(TestCase):
         call_command('flush', '--noinput')
         call_command('loaddata', 'test_db.json')
         self.client = Client()
-        self.superuser = ShopUser.objects.create_superuser('django2', 'django2@geekshop.local', 'geekbrains')
-        self.user = ShopUser.objects.create_user('test_user', 'test_user@geekshop.local', 'unbreakable')
-        self.user_with__first_name = ShopUser.objects.create_user('far', 'albert_f@ya.ru', 'new_password',
-                                                                  first_name='Albert')
+        self.superuser = ShopUser.objects.create_superuser(
+            username='django2',
+            email='django2@geekshop.local',
+            password='geekbrains',
+        )
+        self.user = ShopUser.objects.create_user(
+            username='test_user',
+            email='test_user@geekshop.local',
+            password='unbreakable',
+        )
+        self.user_with__first_name = ShopUser.objects.create_user(
+            username='far',
+            email='albert_f@ya.ru',
+            password='new_password',
+            first_name='Albert',
+        )
 
     def test_user_login(self):
         """Test main page without login."""
@@ -40,7 +53,10 @@ class TestUserManagement(TestCase):
         self.client.login(username='test_user', password='unbreakable')
         response = self.client.get('/basket/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(list(response.context['auth_app_context']['basket_items']), [])
+        self.assertEqual(
+            first=list(response.context['auth_app_context']['basket_items']),
+            second=[],
+        )
         self.assertEqual(response.request['PATH_INFO'], '/basket/')
         self.assertIn('In basket ', response.content.decode())
 
@@ -71,15 +87,31 @@ class TestUserManagement(TestCase):
         response = self.client.post('/auth/register/', data=new_user_data)
         self.assertEqual(response.status_code, 302)
         new_user = ShopUser.objects.get(username=new_user_data['username'])
-        activation_url = f"{settings.DOMAIN_NAME}/auth/verify/{new_user_data['email']}/{new_user.activation_key}/"
+        activation_url = '/'.join(
+            [
+                settings.DOMAIN_NAME,
+                'auth',
+                'verify',
+                new_user_data['email'],
+                new_user.activation_key,
+                '',
+            ],
+        )
         response = self.client.get(activation_url)
         self.assertEqual(response.status_code, 200)
-        self.client.login(username=new_user_data['username'], password=new_user_data['password1'])
+        self.client.login(
+            username=new_user_data['username'],
+            password=new_user_data['password1'],
+        )
         response = self.client.get('/auth/login/')
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['user'].is_anonymous)
         response = self.client.get('/')
-        self.assertContains(response, text=new_user_data['first_name'], status_code=200)
+        self.assertContains(
+            response=response,
+            text=new_user_data['first_name'],
+            status_code=200,
+        )
 
     def test_user_wrong_register(self):
         new_user_data = {
@@ -93,7 +125,18 @@ class TestUserManagement(TestCase):
 
         response = self.client.post('/auth/register/', data=new_user_data)
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response, 'register_form', 'age', 'You are too young!')
+        self.assertFormError(
+            form=response,
+            field='register_form',
+            errors='age',
+            msg_prefix='You are too young!',
+        )
 
     def tearDown(self):
-        call_command('sqlsequencereset', 'main_app', 'auth_app', 'orders_app', 'basket_app')
+        call_command(
+            'sqlsequencereset',
+            'main_app',
+            'auth_app',
+            'orders_app',
+            'basket_app',
+        )

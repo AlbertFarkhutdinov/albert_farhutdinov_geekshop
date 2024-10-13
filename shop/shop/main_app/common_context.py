@@ -1,4 +1,4 @@
-from django.conf.global_settings import MEDIA_URL
+# from django.conf.global_settings import MEDIA_URL
 
 path_to_common_img = 'img/'
 path_to_common_inc = 'common_includes/'
@@ -6,72 +6,81 @@ path_to_media = '/media/'
 main_menu = [
     {
         "href": "main_urls:featured",
-        "name": "HOME"
+        "name": "HOME",
     },
     {
         "href": "products_urls:hot",
-        "name": "PRODUCTS"
+        "name": "PRODUCTS",
     },
     {
         "href": "history_url",
-        "name": "HISTORY"
+        "name": "HISTORY",
     },
     {
         "href": "showroom_url",
-        "name": "SHOWROOM"
+        "name": "SHOWROOM",
     },
     {
         "href": "contacts_url",
-        "name": "CONTACTS"
-    }
+        "name": "CONTACTS",
+    },
 ]
 
 info_menu = [
     {
         "href": "#",
-        "name": "Sales terms"
+        "name": "Sales terms",
     },
     {
         "href": "#",
-        "name": "Customer care"
+        "name": "Customer care",
     },
     {
         "href": "#",
-        "name": "Delivery"
+        "name": "Delivery",
     },
     {
         "href": "#",
-        "name": "Architect accounts"
+        "name": "Architect accounts",
     },
     {
         "href": "#",
-        "name": "Careers"
+        "name": "Careers",
     },
     {
         "href": "#",
-        "name": "Exchanges & returns"
-    }
+        "name": "Exchanges & returns",
+    },
 ]
 
 contact_information = {
     "phone": "1900 - 1234 -5678",
     "email": "info@interior.com",
-    "address": "12 W 1st St, 90001 Los Angeles, California"
+    "address": "12 W 1st St, 90001 Los Angeles, California",
 }
 
-socials = [{'href': 'https://www.facebook.com/',
-            'image_source': path_to_common_img + 'facebook.png',
-            'name': 'facebook'},
-           {'href': 'https://twitter.com/',
-            'image_source': path_to_common_img + 'twitter.png',
-            'name': 'twitter'},
-           {'href': 'https://plus.google.com/',
-            'image_source': path_to_common_img + 'google_plus.png',
-            'name': 'google_plus'},
-           {'href': 'https://www.pinterest.com/',
-            'image_source': path_to_common_img + 'pinterest.png',
-            'name': 'pinterest'}
-           ]
+socials = [
+    {
+        'href': 'https://www.facebook.com/',
+        'image_source': path_to_common_img + 'facebook.png',
+        'name': 'facebook',
+    },
+    {
+        'href': 'https://twitter.com/',
+        'image_source': path_to_common_img + 'twitter.png',
+        'name': 'twitter',
+    },
+    {
+        'href': 'https://plus.google.com/',
+        'image_source': path_to_common_img + 'google_plus.png',
+        'name': 'google_plus',
+    },
+    {
+        'href': 'https://www.pinterest.com/',
+        'image_source': path_to_common_img + 'pinterest.png',
+        'name': 'pinterest',
+    },
+]
 
 
 def get_basket(user):

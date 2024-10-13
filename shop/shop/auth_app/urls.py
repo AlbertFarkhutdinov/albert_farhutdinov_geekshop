@@ -10,5 +10,9 @@ urlpatterns = [
     # path('edit/<int:pk>/', auth_app.EditView.as_view(), name='edit'),
     path('edit/<int:pk>/', auth_app.edit, name='edit'),
     path('logout/', auth_app.logout, name='logout'),
-    path('verify/<str:email>/<str:activation_key>/', auth_app.verify, name='verify'),
+    path(
+        'verify/<str:email>/<str:activation_key>/',
+        auth_app.verify,
+        name='verify',
+    ),
 ]

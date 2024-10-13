@@ -5,9 +5,9 @@ register = template.Library()
 
 @register.filter
 def basket_total_quantity(basket):
-    return sum(list(map(lambda basket_slot: basket_slot.quantity, basket)))
+    return sum([basket_slot.quantity for basket_slot in basket])
 
 
 @register.filter
 def basket_total_cost(basket):
-    return sum(list(map(lambda basket_slot: basket_slot.cost, basket)))
+    return sum([basket_slot.cost for basket_slot in basket])

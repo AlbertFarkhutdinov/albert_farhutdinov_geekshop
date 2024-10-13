@@ -1,6 +1,6 @@
 """The script to remove database and temporary files."""
-from shutil import rmtree
 from pathlib import Path
+from shutil import rmtree
 
 PROJECT_DIR = Path(__file__).absolute().parent
 DB_PATH = PROJECT_DIR.joinpath('db.sqlite3')

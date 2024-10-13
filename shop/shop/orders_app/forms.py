@@ -1,6 +1,7 @@
 from django import forms
-from shop.orders_app.models import Order, OrderItem
+
 from shop.main_app.models import Product
+from shop.orders_app.models import Order, OrderItem
 
 
 class OrderForm(forms.ModelForm):

@@ -1,5 +1,6 @@
 from django.urls import path
-from shop.basket_app.views import add, remove, read, edit
+
+from shop.basket_app.views import add, edit, read, remove
 
 app_name = 'basket_app'
 

@@ -1,24 +1,22 @@
-from django.shortcuts import get_object_or_404, HttpResponseRedirect
-from django.urls import reverse, reverse_lazy
-from django.db import transaction
-from django.forms import inlineformset_factory
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.views.generic.detail import DetailView
-from shop.orders_app.models import Order, OrderItem
-from shop.orders_app.forms import OrderItemForm
-from shop.main_app.common_context import get_basket
-from shop.main_app.common_context import page_name
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.contrib.auth.decorators import user_passes_test
-from shop.basket_app.models import BasketSlot
-from django.dispatch import receiver
-from django.db.models.signals import pre_save, pre_delete
-from django.http import JsonResponse
-from shop.main_app.models import Product
-
-
 from django.conf import settings
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.cache import cache
+from django.db import transaction
+from django.db.models.signals import pre_delete, pre_save
+from django.dispatch import receiver
+from django.forms import inlineformset_factory
+from django.http import JsonResponse
+from django.shortcuts import HttpResponseRedirect, get_object_or_404
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.views.generic.detail import DetailView
+
+from shop.basket_app.models import BasketSlot
+from shop.main_app.common_context import get_basket, page_name
+from shop.main_app.models import Product
+from shop.orders_app.forms import OrderItemForm
+from shop.orders_app.models import Order, OrderItem
 
 
 class IsAuthenticatedUser(UserPassesTestMixin):
@@ -45,13 +43,23 @@ class OrderItemsCreate(IsAuthenticatedUser, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(OrderItemsCreate, self).get_context_data(**kwargs)
-        order_form_set = inlineformset_factory(Order, OrderItem, form=OrderItemForm, extra=1)
+        order_form_set = inlineformset_factory(
+            parent_model=Order,
+            model=OrderItem,
+            form=OrderItemForm,
+            extra=1,
+        )
         if self.request.POST:
             formset = order_form_set(self.request.POST)
         else:
             basket_items = get_basket(self.request.user)
             if len(basket_items):
-                order_form_set = inlineformset_factory(Order, OrderItem, form=OrderItemForm, extra=len(basket_items))
+                order_form_set = inlineformset_factory(
+                    parent_model=Order,
+                    model=OrderItem,
+                    form=OrderItemForm,
+                    extra=len(basket_items),
+                )
                 formset = order_form_set()
                 for num, form in enumerate(formset.forms):
                     form.initial['product'] = basket_items[num].product
@@ -85,9 +93,17 @@ class OrderItemsUpdate(IsAuthenticatedUser, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(OrderItemsUpdate, self).get_context_data(**kwargs)
-        order_form_set = inlineformset_factory(Order, OrderItem, form=OrderItemForm, extra=1)
+        order_form_set = inlineformset_factory(
+            parent_model=Order,
+            model=OrderItem,
+            form=OrderItemForm,
+            extra=1,
+        )
         if self.request.POST:
-            context['order_items'] = order_form_set(self.request.POST, instance=self.object)
+            context['order_items'] = order_form_set(
+                self.request.POST,
+                instance=self.object,
+            )
         else:
             queryset = self.object.order_items.select_related()
             formset = order_form_set(instance=self.object, queryset=queryset)
@@ -139,7 +155,9 @@ def order_forming_complete(request, pk):
 def product_quantity_update_save(sender, update_fields, instance, **kwargs):
     if update_fields in {'quantity', 'product'}:
         if instance.pk and sender.get_item(instance.pk):
-            instance.product.quantity -= instance.quantity - sender.get_item(instance.pk).quantity
+            instance.product.quantity -= (
+                instance.quantity - sender.get_item(instance.pk).quantity
+            )
     else:
         instance.product.quantity -= instance.quantity
     instance.product.save()

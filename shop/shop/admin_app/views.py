@@ -1,23 +1,24 @@
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic import DetailView
-from django.views.generic.list import ListView
-from shop.main_app.models import Product, ProductCategory
-from shop.auth_app.models import ShopUser
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
-from django.dispatch import receiver
-from django.db.models.signals import pre_save
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db import connection
-from shop.admin_app.forms import ProductCategoryEditForm
 from django.db.models import F
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
+
+from shop.admin_app.forms import ProductCategoryEditForm
+from shop.auth_app.models import ShopUser
+from shop.main_app.models import Product, ProductCategory
 
 
 @user_passes_test(lambda u: u.is_superuser)
 def main_admin_page(request):
     context = {
-        'title': 'Admin Page'
+        'title': 'Admin Page',
     }
     return render(request, 'admin_app/index.html', context)
 
@@ -133,7 +134,10 @@ class ProductUpdateView(IsSuperUserView, UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy('admin_custom_urls:product_read', kwargs={'pk': self.kwargs.get('pk')})
+        return reverse_lazy(
+            'admin_custom_urls:product_read',
+            kwargs={'pk': self.kwargs.get('pk')},
+        )
 
 
 class CategoryUpdateView(IsSuperUserView, UpdateView):
@@ -153,8 +157,14 @@ class CategoryUpdateView(IsSuperUserView, UpdateView):
         if 'discount' in form.cleaned_data:
             discount = form.cleaned_data['discount']
             if discount:
-                self.object.product_set.update(price=F('price') * (1 - discount / 100))
-                db_profile_by_type(self.__class__, 'UPDATE', connection.queries)
+                self.object.product_set.update(
+                    price=F('price') * (1 - discount / 100),
+                )
+                db_profile_by_type(
+                    prefix=self.__class__,
+                    _type='UPDATE',
+                    queries=connection.queries,
+                )
         return super().form_valid(form)
 
 

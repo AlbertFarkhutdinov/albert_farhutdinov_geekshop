@@ -1,14 +1,24 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django import forms
-from shop.auth_app.models import ShopUser, ShopUserProfile
-import random
 import hashlib
+import random
+
+from django import forms
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+
+from shop.auth_app.models import ShopUser, ShopUserProfile
 
 
 class ShopUserRegisterForm(UserCreationForm):
     class Meta:
         model = ShopUser
-        fields = ('username', 'first_name', 'password1', 'password2', 'email', 'age', 'avatar')
+        fields = (
+            'username',
+            'first_name',
+            'password1',
+            'password2',
+            'email',
+            'age',
+            'avatar',
+        )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -25,8 +35,12 @@ class ShopUserRegisterForm(UserCreationForm):
     def save(self, commit=True):
         user = super(ShopUserRegisterForm, self).save()
         user.is_active = False
-        salt = hashlib.sha1(str(random.random()).encode('utf8')).hexdigest()[:6]
-        user.activation_key = hashlib.sha1((user.email + salt).encode('utf8')).hexdigest()
+        salt = hashlib.sha1(
+            str(random.random()).encode('utf8'),
+        ).hexdigest()[:6]
+        user.activation_key = hashlib.sha1(
+            (user.email + salt).encode('utf8'),
+        ).hexdigest()
         user.save()
         return user
 
@@ -34,7 +48,14 @@ class ShopUserRegisterForm(UserCreationForm):
 class ShopUserEditForm(UserChangeForm):
     class Meta:
         model = ShopUser
-        fields = ('username', 'first_name', 'email', 'age', 'avatar', 'password')
+        fields = (
+            'username',
+            'first_name',
+            'email',
+            'age',
+            'avatar',
+            'password',
+        )
 
     def __init__(self, *args, **kwargs):
         super(ShopUserEditForm, self).__init__(*args, **kwargs)

@@ -26,5 +26,11 @@
 #             response = self.client.get(f'/products/product/{product.pk}/')
 #             self.assertEqual(response.status_code, 200)
 #
-#     def tearDown(self):
-#         call_command('sqlsequencereset', 'main_app', 'auth_app', 'orders_app', 'basket_app')
+#    def tearDown(self):
+#        call_command(
+#            'sqlsequencereset',
+#            'main_app',
+#            'auth_app',
+#            'orders_app',
+#            'basket_app',
+#        )

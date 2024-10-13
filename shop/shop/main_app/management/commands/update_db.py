@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
-from shop.auth_app.models import ShopUser
-from shop.auth_app.models import ShopUserProfile
+
+from shop.auth_app.models import ShopUser, ShopUserProfile
 
 
 class Command(BaseCommand):

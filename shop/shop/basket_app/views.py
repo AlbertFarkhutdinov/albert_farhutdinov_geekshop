@@ -1,10 +1,13 @@
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, HttpResponse
-from shop.basket_app.models import BasketSlot
 from django.contrib.auth.decorators import login_required
-from shop.main_app.models import Product
-from django.urls import reverse
-from shop.main_app.common_context import page_name
 from django.db.models import F
+from django.shortcuts import (HttpResponse, HttpResponseRedirect,
+                              get_object_or_404, render)
+from django.urls import reverse
+
+from shop.basket_app.models import BasketSlot
+from shop.main_app.common_context import page_name
+from shop.main_app.models import Product
+
 # from django.conf import settings
 # from django.core.cache import cache
 
@@ -19,7 +22,12 @@ def read(request):
 @login_required
 def add(request, product_pk):
     if 'login' in request.META.get('HTTP_REFERER'):
-        return HttpResponseRedirect(reverse('products_urls:product', args=[product_pk]))
+        return HttpResponseRedirect(
+            reverse(
+                viewname='products_urls:product',
+                args=[product_pk],
+            ),
+        )
     product = get_object_or_404(Product, pk=product_pk)
     basket_slot = BasketSlot.objects.filter(user=request.user, product=product)
     if basket_slot:
@@ -70,8 +78,14 @@ def edit(request, pk):
 #         key = f'basket_slot_{user.username}_{product_pk}'
 #         cache_basket = cache.get(key)
 #         if cache_basket is None:
-#             cache_basket = BasketSlot.objects.select_related().filter(user, product).first()
+#             cache_basket = BasketSlot.objects.select_related().filter(
+#                 user,
+#                 product,
+#             ).first()
 #             cache.set(key, cache_basket)
 #         return cache_basket
 #     else:
-#         return BasketSlot.objects.select_related().filter(user, product).first()
+#         return BasketSlot.objects.select_related().filter(
+#             user,
+#             product,
+#         ).first()

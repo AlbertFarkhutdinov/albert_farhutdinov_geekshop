@@ -95,7 +95,7 @@ MIDDLEWARE = [
 #     ]
 
 INTERNAL_IPS = [
-    '127.0.0.1'
+    '127.0.0.1',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -212,7 +212,7 @@ SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'social_core.backends.vk.VKOAuth2'
+    'social_core.backends.vk.VKOAuth2',
 )
 
 with JSON_DIR.joinpath('vk.json').open() as file:
@@ -245,7 +245,7 @@ if os.name == 'posix':
         'default': {
             'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
             'LOCATION': '127.0.0.1:11211',
-        }
+        },
     }
 
 LOW_CACHE = True

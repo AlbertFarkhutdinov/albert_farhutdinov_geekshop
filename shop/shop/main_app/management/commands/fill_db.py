@@ -1,10 +1,11 @@
-from django.core.management.base import BaseCommand
-from shop.main_app.models import ProductCategory, Product
-from shop.auth_app.models import ShopUser
-from configparser import RawConfigParser
-from django.conf import settings
 import json
+from configparser import RawConfigParser
 
+from django.conf import settings
+from django.core.management.base import BaseCommand
+
+from shop.auth_app.models import ShopUser
+from shop.main_app.models import Product, ProductCategory
 
 JSON_PATH = settings.JSON_DIR
 local_config_path = settings.CONF_DIR.joinpath('local.conf')

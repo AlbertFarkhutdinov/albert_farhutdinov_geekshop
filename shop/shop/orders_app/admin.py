@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from shop.orders_app.models import Order, OrderItem
 
 admin.site.register(Order)
