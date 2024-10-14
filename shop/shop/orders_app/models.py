@@ -5,29 +5,30 @@ from shop.main_app.models import Product
 
 
 class OrderItemQuerySet(models.QuerySet):
+
     def delete(self, *args, **kwargs):
-        for obj in self:
-            obj.product.quantity += obj.quantity
-            obj.product.save()
-        super(OrderItemQuerySet, self).delete(*args, **kwargs)
+        for order_item in self:
+            order_item.product.quantity += order_item.quantity
+            order_item.product.save()
+        super().delete(*args, **kwargs)
 
 
 class Order(models.Model):
     objects = models.Manager()
-    FORMING = 'FM'
-    SENT_TO_PROCEED = 'STP'
-    PROCEEDED = 'PRD'
-    PAID = 'PD'
-    READY = 'RDY'
-    CANCEL = 'CNC'
+    forming = 'FM'
+    sent_to_proceed = 'STP'
+    proceeded = 'PRD'
+    paid = 'PD'
+    ready = 'RDY'
+    cancel = 'CNC'
 
-    ORDER_STATUS_CHOICES = (
-        (FORMING, 'forming'),
-        (SENT_TO_PROCEED, 'sent to proceed'),
-        (PAID, 'paid'),
-        (PROCEEDED, 'proceeded'),
-        (READY, 'ready'),
-        (CANCEL, 'cancel'),
+    order_status_choices = (
+        (forming, 'forming'),
+        (sent_to_proceed, 'sent to proceed'),
+        (paid, 'paid'),
+        (proceeded, 'proceeded'),
+        (ready, 'ready'),
+        (cancel, 'cancel'),
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -41,8 +42,8 @@ class Order(models.Model):
     status = models.CharField(
         verbose_name='Status',
         max_length=3,
-        choices=ORDER_STATUS_CHOICES,
-        default=FORMING,
+        choices=order_status_choices,
+        default=forming,
     )
     is_active = models.BooleanField(verbose_name='Is active?', default=True)
 
@@ -52,18 +53,16 @@ class Order(models.Model):
         verbose_name_plural = 'Orders'
 
     def __str__(self):
-        return f'Order #{self.pk}; {self.created}'
+        return 'Order #{0}; {1}'.format(self.pk, self.created)
 
     def get_summary(self):
-        items = self.order_items.select_related()
-        return {
-            'total_cost': sum(
-                [item.quantity * item.product.price for item in items],
-            ),
-            'total_quantity': sum(
-                [item.quantity for item in items],
-            ),
-        }
+        order_items = self.order_items.select_related()
+        summary = {'total_cost': 0, 'total_quantity': 0}
+        for order_item in order_items:
+            quantity = order_item.quantity
+            summary['total_cost'] += quantity * order_item.product.price
+            summary['total_quantity'] += quantity
+        return summary
 
     def get_items(self):
         return self.order_items.select_related()
@@ -82,10 +81,10 @@ class Order(models.Model):
     #     )
 
     def delete(self):
-        items = self.get_items()
-        for item in items:
-            item.product.quantity += item.quantity
-            item.product.save()
+        order_items = self.get_items()
+        for order_item in order_items:
+            order_item.product.quantity += order_item.quantity
+            order_item.product.save()
         self.is_active = False
         self.save()
 
@@ -114,16 +113,20 @@ class OrderItem(models.Model):
 
     def __str__(self):
         order = self.order
-        return f'{self.product.name} (Order #{order.pk}; {order.created})'
+        return '{0} (Order #{1}; {2})'.format(
+            self.product.name,
+            order.pk,
+            order.created,
+        )
 
-    @staticmethod
-    def get_items(user):
+    @classmethod
+    def get_items(cls, user):
         return OrderItem.objects.filter(
             user=user,
         ).select_related().order_by('product__category')
 
-    @staticmethod
-    def get_item(pk):
+    @classmethod
+    def get_item(cls, pk):
         return OrderItem.objects.filter(pk=pk).select_related().first()
 
     # def delete(self):

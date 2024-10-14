@@ -8,23 +8,26 @@ TMP_PATH = PROJECT_DIR.joinpath('tmp')
 
 try:
     DB_PATH.unlink()
-    print(f'"{DB_PATH}" is removed.')
 except FileNotFoundError:
-    print(f'"{DB_PATH}" is not found.')
+    print('"{0}" is not found.'.format(DB_PATH))
+else:
+    print('"{0}" is removed.'.format(DB_PATH))
 
 try:
     rmtree(TMP_PATH)
-    print(f'"{TMP_PATH}" is removed.')
 except FileNotFoundError:
-    print(f'"{TMP_PATH}" is not found.')
+    print('"{0}" is not found.'.format(TMP_PATH))
+else:
+    print('"{0}" is removed.'.format(TMP_PATH))
 
-for app in (
+APPS = (
     'admin_app',
     'auth_app',
     'basket_app',
     'main_app',
     'orders_app',
-):
+)
+for app in APPS:
     migrations_path = PROJECT_DIR.joinpath(app, 'migrations')
     if migrations_path.exists():
         for path in migrations_path.iterdir():
@@ -33,6 +36,6 @@ for app in (
                     path.unlink()
                 else:
                     rmtree(path)
-        print(f'Migrations from "{migrations_path}" are removed.')
+        print('Migrations from "{0}" are removed.'.format(migrations_path))
     else:
-        print(f'"{migrations_path}" is not found.')
+        print('"{0}" is not found.'.format(migrations_path))

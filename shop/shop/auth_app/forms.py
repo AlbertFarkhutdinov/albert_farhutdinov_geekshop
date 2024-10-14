@@ -6,6 +6,8 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
 from shop.auth_app.models import ShopUser, ShopUserProfile
 
+AGE = 'age'
+
 
 class ShopUserRegisterForm(UserCreationForm):
     class Meta:
@@ -16,7 +18,7 @@ class ShopUserRegisterForm(UserCreationForm):
             'password1',
             'password2',
             'email',
-            'age',
+            AGE,
             'avatar',
         )
 
@@ -27,13 +29,13 @@ class ShopUserRegisterForm(UserCreationForm):
             field.help_text = ''
 
     def clean_age(self):
-        data = self.cleaned_data['age']
-        if data < 18:
+        age = self.cleaned_data[AGE]
+        if age < 18:
             raise forms.ValidationError('You are too young!')
-        return data
+        return age
 
     def save(self, commit=True):
-        user = super(ShopUserRegisterForm, self).save()
+        user = super().save(commit=commit)
         user.is_active = False
         salt = hashlib.sha1(
             str(random.random()).encode('utf8'),
@@ -52,13 +54,14 @@ class ShopUserEditForm(UserChangeForm):
             'username',
             'first_name',
             'email',
-            'age',
+            AGE,
             'avatar',
             'password',
         )
 
     def __init__(self, *args, **kwargs):
-        super(ShopUserEditForm, self).__init__(*args, **kwargs)
+
+        super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
             field.help_text = ''
@@ -66,10 +69,10 @@ class ShopUserEditForm(UserChangeForm):
                 field.widget = forms.HiddenInput()
 
     def clean_age(self):
-        data = self.cleaned_data['age']
-        if data < 18:
+        age = self.cleaned_data[AGE]
+        if age < 18:
             raise forms.ValidationError('You are too yong!')
-        return data
+        return age
 
 
 class ShopUserProfileEditForm(forms.ModelForm):
@@ -78,6 +81,7 @@ class ShopUserProfileEditForm(forms.ModelForm):
         exclude = ('user',)
 
     def __init__(self, *args, **kwargs):
-        super(ShopUserProfileEditForm, self).__init__(*args, **kwargs)
+
+        super().__init__(*args, **kwargs)
         for _, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'

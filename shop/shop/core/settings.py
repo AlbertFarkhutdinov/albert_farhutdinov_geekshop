@@ -26,11 +26,12 @@ config.read(local_config_path)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+MAIN_SECTION = 'main'
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config.get(section='main', option='SECRET_KEY')
+SECRET_KEY = config.get(section=MAIN_SECTION, option='SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config.getboolean(section='main', option='DEBUG')
+DEBUG = config.getboolean(section=MAIN_SECTION, option='DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -144,18 +145,19 @@ LOGIN_URL = '/auth/login/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 validation_prefix = 'django.contrib.auth.password_validation'
+NAME = 'NAME'
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': '{0}.UserAttributeSimilarityValidator'.format(validation_prefix),
+        NAME: '{0}.UserAttributeSimilarityValidator'.format(validation_prefix),
     },
     {
-        'NAME': '{0}.MinimumLengthValidator'.format(validation_prefix),
+        NAME: '{0}.MinimumLengthValidator'.format(validation_prefix),
     },
     {
-        'NAME': '{0}.CommonPasswordValidator'.format(validation_prefix),
+        NAME: '{0}.CommonPasswordValidator'.format(validation_prefix),
     },
     {
-        'NAME': '{0}.NumericPasswordValidator'.format(validation_prefix),
+        NAME: '{0}.NumericPasswordValidator'.format(validation_prefix),
     },
 ]
 
@@ -180,12 +182,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR.joinpath(
-        config.get(section='main', option='STATICFILES_DIRS'),
+        config.get(section=MAIN_SECTION, option='STATICFILES_DIRS'),
     ),
 ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath(
-    config.get(section='main', option='MEDIA_ROOT'),
+    config.get(section=MAIN_SECTION, option='MEDIA_ROOT'),
 )
 
 # Default primary key field type
@@ -215,8 +217,8 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
 )
 
-with JSON_DIR.joinpath('vk.json').open() as file:
-    VK = json.load(file)
+with JSON_DIR.joinpath('vk.json').open() as vk_file:
+    VK = json.load(vk_file)
 
 SOCIAL_AUTH_VK_OAUTH2_KEY = VK['SOCIAL_AUTH_VK_OAUTH2_KEY']
 SOCIAL_AUTH_VK_OAUTH2_SECRET = VK['SOCIAL_AUTH_VK_OAUTH2_SECRET']

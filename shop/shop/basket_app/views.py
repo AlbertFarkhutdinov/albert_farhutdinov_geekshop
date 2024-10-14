@@ -1,7 +1,6 @@
+from django import shortcuts as sc
 from django.contrib.auth.decorators import login_required
-from django.db.models import F
-from django.shortcuts import (HttpResponse, HttpResponseRedirect,
-                              get_object_or_404, render)
+from django.db import models
 from django.urls import reverse
 
 from shop.basket_app.models import BasketSlot
@@ -13,63 +12,62 @@ from shop.main_app.models import Product
 
 
 @login_required
-def read(request):
+def read_basket(request):
     context = {}
     page_name(context, 'Basket')
-    return render(request, 'basket_app/basket.html', context)
+    return sc.render(request, 'basket_app/basket.html', context)
 
 
 @login_required
 def add(request, product_pk):
     if 'login' in request.META.get('HTTP_REFERER'):
-        return HttpResponseRedirect(
+        return sc.HttpResponseRedirect(
             reverse(
                 viewname='products_urls:product',
                 args=[product_pk],
             ),
         )
-    product = get_object_or_404(Product, pk=product_pk)
+    product = sc.get_object_or_404(Product, pk=product_pk)
     basket_slot = BasketSlot.objects.filter(user=request.user, product=product)
     if basket_slot:
         basket_slot = basket_slot.select_related().first()
-    if not basket_slot:
-        basket_slot = BasketSlot(user=request.user, product=product)
+        basket_slot.quantity = models.F('quantity') + 1
     else:
-        basket_slot.quantity = F('quantity') + 1
+        basket_slot = BasketSlot(user=request.user, product=product)
     if basket_slot.quantity <= product.quantity:
         basket_slot.save()
     else:
         print('This item is not in stock.')
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return sc.HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required
 def remove(request, product_pk):
-    product = get_object_or_404(Product, pk=product_pk)
+    product = sc.get_object_or_404(Product, pk=product_pk)
     basket_slot = BasketSlot.objects.filter(user=request.user, product=product)
     if basket_slot:
         basket_slot = basket_slot.select_related().first()
     if basket_slot:
         if basket_slot.quantity > 1:
-            basket_slot.quantity = F('quantity') - 1
+            basket_slot.quantity = models.F('quantity') - 1
             basket_slot.save()
         else:
             basket_slot.delete()
 
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return sc.HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required
 def edit(request, pk):
     if request.is_ajax():
-        basket_slot = get_object_or_404(BasketSlot, pk=pk)
+        basket_slot = sc.get_object_or_404(BasketSlot, pk=pk)
         quantity = int(request.GET.get('quantity'))
         if quantity > 0:
             basket_slot.quantity = quantity
             basket_slot.save()
         else:
             basket_slot.delete()
-        return HttpResponse('Ok!')
+        return sc.HttpResponse('Ok!')
     return None
 
 

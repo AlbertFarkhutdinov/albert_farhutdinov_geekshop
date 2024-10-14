@@ -6,8 +6,7 @@ from django.db import transaction
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, render
 from django.urls import reverse
 
-from shop.auth_app.forms import (ShopUserEditForm, ShopUserProfileEditForm,
-                                 ShopUserRegisterForm)
+from shop.auth_app import forms
 from shop.auth_app.models import ShopUser
 from shop.main_app.common_context import page_name
 
@@ -15,10 +14,13 @@ from shop.main_app.common_context import page_name
 # from django.views.generic.edit import UpdateView
 
 
+NEXT = 'next'
+
+
 def register(request):
-    register_form = ShopUserRegisterForm()
+    register_form = forms.ShopUserRegisterForm()
     if request.method == 'POST':
-        register_form = ShopUserRegisterForm(
+        register_form = forms.ShopUserRegisterForm(
             data=request.POST,
             files=request.FILES,
         )
@@ -44,14 +46,14 @@ def login(request):
         user = auth.authenticate(username=username, password=password)
         if user:
             auth.login(request, user)
-            if request.POST.get('next'):
-                return HttpResponseRedirect(request.POST.get('next'))
+            if request.POST.get(NEXT):
+                return HttpResponseRedirect(request.POST.get(NEXT))
             return HttpResponseRedirect(reverse('main_urls:featured'))
 
-    get_next = request.GET.get('next')
+    get_next = request.GET.get(NEXT)
     context = {
         'title': 'Login',
-        'next': get_next,
+        NEXT: get_next,
     }
     return render(request, 'auth_app/login.html', context)
 
@@ -65,15 +67,17 @@ def logout(request):
 @transaction.atomic
 def edit(request, pk):
     get_user = get_object_or_404(ShopUser, pk=pk)
-    edit_form = ShopUserEditForm(instance=get_user)
-    profile_form = ShopUserProfileEditForm(instance=get_user.shopuserprofile)
+    edit_form = forms.ShopUserEditForm(instance=get_user)
+    profile_form = forms.ShopUserProfileEditForm(
+        instance=get_user.shopuserprofile,
+    )
     if request.method == 'POST':
-        edit_form = ShopUserEditForm(
+        edit_form = forms.ShopUserEditForm(
             request.POST,
             request.FILES,
             instance=get_user,
         )
-        profile_form = ShopUserProfileEditForm(
+        profile_form = forms.ShopUserProfileEditForm(
             request.POST,
             instance=get_user.shopuserprofile,
         )
@@ -99,10 +103,11 @@ def send_verify_mail(user):
         viewname='auth_urls:verify',
         args=[user.email, user.activation_key],
     )
-    title = f'Account Verification {user.username}'
-    message = (
-        f'Follow the link {settings.DOMAIN_NAME}{verify_link}'
-        f'to verify account {user.username}.'
+    title = 'Account Verification {0}'.format(user.username)
+    message = 'Follow the link {0}{1} to verify account {2}.'.format(
+        settings.DOMAIN_NAME,
+        verify_link,
+        user.username,
     )
     return send_mail(
         title,
@@ -126,10 +131,10 @@ def verify(request, email, activation_key):
                 backend='django.contrib.auth.backends.ModelBackend',
             )
             return render(request, 'auth_app/verification.html')
-        print(f'Error activation user: {user}')
+        print('Error activation user: {0}'.format(user))
         return render(request, 'auth_app/verification.html')
-    except Exception as e:
-        print(f'Error activation user: {e.args}')
+    except Exception as exc:
+        print('Error activation user: {0}'.format(exc.args))
         return HttpResponseRedirect(reverse('main_urls:featured'))
 
 

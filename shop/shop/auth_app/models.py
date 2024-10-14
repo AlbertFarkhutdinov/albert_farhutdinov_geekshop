@@ -37,12 +37,12 @@ class ShopUser(AbstractUser):
 
 class ShopUserProfile(models.Model):
     objects = models.Manager()
-    MALE = 'M'
-    FEMALE = 'F'
+    male = 'M'
+    female = 'F'
 
-    GENDER_CHOICES = (
-        (MALE, 'M'),
-        (FEMALE, 'F'),
+    gender_choices = (
+        (male, 'M'),
+        (female, 'F'),
     )
     user = models.OneToOneField(
         ShopUser,
@@ -63,7 +63,8 @@ class ShopUserProfile(models.Model):
     )
     gender = models.CharField(
         verbose_name='Gender',
-        max_length=1, choices=GENDER_CHOICES,
+        max_length=1,
+        choices=gender_choices,
         blank=True,
     )
     vk_page = models.CharField(

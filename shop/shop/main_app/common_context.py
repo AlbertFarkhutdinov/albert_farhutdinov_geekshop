@@ -1,55 +1,62 @@
 # from django.conf.global_settings import MEDIA_URL
 
+
+IMAGE_SOURCE = 'image_source'
+HREF = 'href'
+NAME = 'name'
+STUB = '#'
+
+
 path_to_common_img = 'img/'
 path_to_common_inc = 'common_includes/'
 path_to_media = '/media/'
 main_menu = [
     {
-        'href': 'main_urls:featured',
-        'name': 'HOME',
+        HREF: 'main_urls:featured',
+        NAME: 'HOME',
     },
     {
-        'href': 'products_urls:hot',
-        'name': 'PRODUCTS',
+        HREF: 'products_urls:hot',
+        NAME: 'PRODUCTS',
     },
     {
-        'href': 'history_url',
-        'name': 'HISTORY',
+        HREF: 'history_url',
+        NAME: 'HISTORY',
     },
     {
-        'href': 'showroom_url',
-        'name': 'SHOWROOM',
+        HREF: 'showroom_url',
+        NAME: 'SHOWROOM',
     },
     {
-        'href': 'contacts_url',
-        'name': 'CONTACTS',
+        HREF: 'contacts_url',
+        NAME: 'CONTACTS',
     },
 ]
 
 info_menu = [
     {
-        'href': '#',
-        'name': 'Sales terms',
+        HREF: STUB,
+        NAME: 'Sales terms',
     },
     {
-        'href': '#',
-        'name': 'Customer care',
+        HREF: STUB,
+        NAME: 'Customer care',
     },
     {
-        'href': '#',
-        'name': 'Delivery',
+        HREF: STUB,
+        NAME: 'Delivery',
     },
     {
-        'href': '#',
-        'name': 'Architect accounts',
+        HREF: STUB,
+        NAME: 'Architect accounts',
     },
     {
-        'href': '#',
-        'name': 'Careers',
+        HREF: STUB,
+        NAME: 'Careers',
     },
     {
-        'href': '#',
-        'name': 'Exchanges & returns',
+        HREF: STUB,
+        NAME: 'Exchanges & returns',
     },
 ]
 
@@ -61,24 +68,24 @@ contact_information = {
 
 socials = [
     {
-        'href': 'https://www.facebook.com/',
-        'image_source': path_to_common_img + 'facebook.png',
-        'name': 'facebook',
+        HREF: 'https://www.facebook.com/',
+        IMAGE_SOURCE: '{0}facebook.png'.format(path_to_common_img),
+        NAME: 'facebook',
     },
     {
-        'href': 'https://twitter.com/',
-        'image_source': path_to_common_img + 'twitter.png',
-        'name': 'twitter',
+        HREF: 'https://twitter.com/',
+        IMAGE_SOURCE: '{0}twitter.png'.format(path_to_common_img),
+        NAME: 'twitter',
     },
     {
-        'href': 'https://plus.google.com/',
-        'image_source': path_to_common_img + 'google_plus.png',
-        'name': 'google_plus',
+        HREF: 'https://plus.google.com/',
+        IMAGE_SOURCE: '{0}google_plus.png'.format(path_to_common_img),
+        NAME: 'google_plus',
     },
     {
-        'href': 'https://www.pinterest.com/',
-        'image_source': path_to_common_img + 'pinterest.png',
-        'name': 'pinterest',
+        HREF: 'https://www.pinterest.com/',
+        IMAGE_SOURCE: '{0}pinterest.png'.format(path_to_common_img),
+        NAME: 'pinterest',
     },
 ]
 

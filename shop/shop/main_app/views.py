@@ -12,17 +12,17 @@ from shop.main_app.models import Product, ProductCategory
 
 def main(request):
     all_products = get_products()
-    keys = [item.pk for item in all_products]
+    keys = [product_instance.pk for product_instance in all_products]
     if keys:
-        pk__lte = min(keys) + 5
+        pk_lte = min(keys) + 5
     else:
-        pk__lte = 5
+        pk_lte = 5
     context = {
         'products': all_products,
         'new_products': all_products.filter(is_new=True),
         'featured_products': all_products.filter(is_featured=True),
         'hot_products': all_products.filter(is_hot=True),
-        'trending_products': all_products.filter(pk__lte=pk__lte),
+        'trending_products': all_products.filter(pk__lte=pk_lte),
     }
     page_name(context, name='Home page')
     return render(
@@ -119,7 +119,7 @@ def get_categories():
 
 def get_products_in_category(pk):
     if settings.LOW_CACHE:
-        key = f'products_in_category_{pk}'
+        key = 'products_in_category_{0}'.format(pk)
         cache_products = cache.get(key)
         if cache_products is None:
             cache_products = Product.objects.filter(
@@ -138,7 +138,7 @@ def get_products_in_category(pk):
 
 def get_cache_object(model, key_word, pk):
     if settings.LOW_CACHE:
-        key = f'{key_word}_{pk}'
+        key = '{0}_{1}'.format(key_word, pk)
         cache_object = cache.get(key)
         if cache_object is None:
             cache_object = get_object_or_404(model, pk=pk)

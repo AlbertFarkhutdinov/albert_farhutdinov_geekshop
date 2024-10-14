@@ -5,11 +5,12 @@ from shop.main_app.models import Product
 
 
 class BasketQuerySet(models.QuerySet):
+
     def delete(self, *args, **kwargs):
-        for obj in self:
-            obj.product.quantity += obj.quantity
-            obj.product.save()
-        super(BasketQuerySet, self).delete(*args, **kwargs)
+        for basket_item in self:
+            basket_item.product.quantity += basket_item.quantity
+            basket_item.product.save()
+        super().delete()
 
 
 class BasketSlot(models.Model):
@@ -42,20 +43,20 @@ class BasketSlot(models.Model):
     )
 
     def __str__(self):
-        return f'{self.user.username} - {self.product.name}'
+        return '{0} - {1}'.format(self.user.username, self.product.name)
 
     @property
     def cost(self):
         return self.product.price * self.quantity
 
-    @staticmethod
-    def get_items(user):
+    @classmethod
+    def get_items(cls, user):
         return BasketSlot.objects.filter(
             user=user,
         ).select_related().order_by('product__category')
 
-    @staticmethod
-    def get_item(pk):
+    @classmethod
+    def get_item(cls, pk):
         return BasketSlot.objects.filter(pk=pk).select_related().first()
 
     # def delete(self):

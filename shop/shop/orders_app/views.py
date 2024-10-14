@@ -18,6 +18,10 @@ from shop.main_app.models import Product
 from shop.orders_app.forms import OrderItemForm
 from shop.orders_app.models import Order, OrderItem
 
+SUCCESS_URL = 'order_urls:orders_list'
+PRICE = 'price'
+ORDER_ITEMS = 'order_items'
+
 
 class IsAuthenticatedUser(UserPassesTestMixin):
     def test_func(self):
@@ -31,7 +35,7 @@ class OrderList(IsAuthenticatedUser, ListView):
         return get_order_list(user=self.request.user)
 
     def get_context_data(self, **kwargs):
-        context = super(OrderList, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         page_name(context, 'Your orders')
         return context
 
@@ -39,10 +43,10 @@ class OrderList(IsAuthenticatedUser, ListView):
 class OrderItemsCreate(IsAuthenticatedUser, CreateView):
     model = Order
     fields = []
-    success_url = reverse_lazy('order_urls:orders_list')
+    success_url = reverse_lazy(SUCCESS_URL)
 
     def get_context_data(self, **kwargs):
-        context = super(OrderItemsCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         order_form_set = inlineformset_factory(
             parent_model=Order,
             model=OrderItem,
@@ -53,7 +57,7 @@ class OrderItemsCreate(IsAuthenticatedUser, CreateView):
             formset = order_form_set(self.request.POST)
         else:
             basket_items = get_basket(self.request.user)
-            if len(basket_items):
+            if basket_items:
                 order_form_set = inlineformset_factory(
                     parent_model=Order,
                     model=OrderItem,
@@ -64,17 +68,17 @@ class OrderItemsCreate(IsAuthenticatedUser, CreateView):
                 for num, form in enumerate(formset.forms):
                     form.initial['product'] = basket_items[num].product
                     form.initial['quantity'] = basket_items[num].quantity
-                    form.initial['price'] = basket_items[num].product.price
+                    form.initial[PRICE] = basket_items[num].product.price
                 basket_items.delete()
             else:
                 formset = order_form_set()
-        context['order_items'] = formset
+        context[ORDER_ITEMS] = formset
         page_name(context, 'New order')
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
-        order_items = context['order_items']
+        order_items = context[ORDER_ITEMS]
         with transaction.atomic():
             form.instance.user = self.request.user
             self.object = form.save()
@@ -83,16 +87,16 @@ class OrderItemsCreate(IsAuthenticatedUser, CreateView):
                 order_items.save()
         if self.object.get_total_cost() == 0:
             self.object.delete()
-        return super(OrderItemsCreate, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class OrderItemsUpdate(IsAuthenticatedUser, UpdateView):
     model = Order
     fields = []
-    success_url = reverse_lazy('order_urls:orders_list')
+    success_url = reverse_lazy(SUCCESS_URL)
 
     def get_context_data(self, **kwargs):
-        context = super(OrderItemsUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         order_form_set = inlineformset_factory(
             parent_model=Order,
             model=OrderItem,
@@ -100,7 +104,7 @@ class OrderItemsUpdate(IsAuthenticatedUser, UpdateView):
             extra=1,
         )
         if self.request.POST:
-            context['order_items'] = order_form_set(
+            context[ORDER_ITEMS] = order_form_set(
                 self.request.POST,
                 instance=self.object,
             )
@@ -109,14 +113,14 @@ class OrderItemsUpdate(IsAuthenticatedUser, UpdateView):
             formset = order_form_set(instance=self.object, queryset=queryset)
             for form in formset.forms:
                 if form.instance.pk:
-                    form.initial['price'] = form.instance.product.price
-            context['order_items'] = formset
+                    form.initial[PRICE] = form.instance.product.price
+            context[ORDER_ITEMS] = formset
         page_name(context, 'Update order')
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
-        order_items = context['order_items']
+        order_items = context[ORDER_ITEMS]
         with transaction.atomic():
             self.object = form.save()
             if order_items.is_valid():
@@ -124,19 +128,19 @@ class OrderItemsUpdate(IsAuthenticatedUser, UpdateView):
                 order_items.save()
         if self.object.get_summary()['total_cost'] == 0:
             self.object.delete()
-        return super(OrderItemsUpdate, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class OrderDelete(IsAuthenticatedUser, DeleteView):
     model = Order
-    success_url = reverse_lazy('order_urls:orders_list')
+    success_url = reverse_lazy(SUCCESS_URL)
 
 
 class OrderRead(IsAuthenticatedUser, DetailView):
     model = Order
 
     def get_context_data(self, **kwargs):
-        context = super(OrderRead, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         page_name(context, 'Order/Watch')
         return context
 
@@ -144,9 +148,9 @@ class OrderRead(IsAuthenticatedUser, DetailView):
 @user_passes_test(lambda user: user.is_authenticated)
 def order_forming_complete(request, pk):
     order = get_object_or_404(Order, pk=pk)
-    order.status = Order.SENT_TO_PROCEED
+    order.status = Order.sent_to_proceed
     order.save()
-    return HttpResponseRedirect(reverse('order_urls:orders_list'))
+    return HttpResponseRedirect(reverse(SUCCESS_URL))
 
 
 @user_passes_test(lambda user: user.is_authenticated)
@@ -175,8 +179,8 @@ def get_product_price(request, pk):
     if request.is_ajax():
         product = Product.objects.filter(pk=int(pk)).first()
         if product:
-            return JsonResponse({'price': product.price})
-        return JsonResponse({'price': 0})
+            return JsonResponse({PRICE: product.price})
+        return JsonResponse({PRICE: 0})
     return None
 
 

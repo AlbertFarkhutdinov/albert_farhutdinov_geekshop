@@ -18,62 +18,67 @@
 from datetime import timedelta
 
 from django.core.management.base import BaseCommand
-from django.db.models import Case, DecimalField, F, IntegerField, Q, When
+from django.db import models
 
 from shop.orders_app.models import OrderItem
 
-ACTION_1 = 1
-ACTION_2 = 2
+ACTION1 = 1
+ACTION2 = 2
 ACTION_EXPIRED = 3
+
+ORDER_CREATED = 'order__created'
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        action_1__time_delta = timedelta(hours=12)
-        action_2__time_delta = timedelta(days=1)
-        action_1__discount = 0.3
-        action_2__discount = 0.15
-        action_expired__discount = 0.05
-        action_1__condition = Q(
-            order__updated__lte=F('order__created') + action_1__time_delta,
+        action1_time_delta = timedelta(hours=12)
+        action2_time_delta = timedelta(days=1)
+        action1_discount = 0.3
+        action2_discount = 0.15
+        action_expired_discount = 0.05
+        action1_condition = models.Q(
+            order__updated__lte=models.F(ORDER_CREATED) + action1_time_delta,
         )
-        gt = Q(order__updated__gt=F('order__created') + action_1__time_delta)
-        lte = Q(order__updated__lte=F('order__created') + action_2__time_delta)
-        action_2__condition = gt & lte
-        action_expired__condition = Q(
-            order__updated__gt=F('order__created') + action_2__time_delta,
+        gt = models.Q(
+            order__updated__gt=models.F(ORDER_CREATED) + action1_time_delta,
         )
-        action_1__order = When(action_1__condition, then=ACTION_1)
-        action_2__order = When(action_2__condition, then=ACTION_2)
-        action_expired__order = When(
-            action_expired__condition,
+        lte = models.Q(
+            order__updated__lte=models.F(ORDER_CREATED) + action2_time_delta,
+        )
+        action2_condition = gt & lte
+        action_expired_condition = models.Q(
+            order__updated__gt=models.F(ORDER_CREATED) + action2_time_delta,
+        )
+        action1_order = models.When(action1_condition, then=ACTION1)
+        action2_order = models.When(action2_condition, then=ACTION2)
+        action_expired_order = models.When(
+            action_expired_condition,
             then=ACTION_EXPIRED,
         )
-        action_1__price = When(
-            action_1__condition,
-            then=F('product__price') * F('quantity') * action_1__discount,
+        product_cost = models.F('product__price') * models.F('quantity')
+        action1_price = models.When(
+            action1_condition,
+            then=product_cost * action1_discount,
         )
-        action_2__price = When(
-            action_2__condition,
-            then=F('product__price') * F('quantity') * -action_2__discount,
+        action2_price = models.When(
+            action2_condition,
+            then=product_cost * -action2_discount,
         )
-        action_expired__price = When(
-            action_expired__condition,
-            then=(
-                F('product__price') * F('quantity') * action_expired__discount
-            ),
+        action_expired_price = models.When(
+            action_expired_condition,
+            then=product_cost * action_expired_discount,
         )
-        action_order = Case(
-            action_1__order,
-            action_2__order,
-            action_expired__order,
-            output_field=IntegerField(),
+        action_order = models.Case(
+            action1_order,
+            action2_order,
+            action_expired_order,
+            output_field=models.IntegerField(),
         )
-        total_price = Case(
-            action_1__price,
-            action_2__price,
-            action_expired__price,
-            output_field=DecimalField(),
+        total_price = models.Case(
+            action1_price,
+            action2_price,
+            action_expired_price,
+            output_field=models.DecimalField(),
         )
         test_orders = OrderItem.objects.annotate(
             action_order=action_order,

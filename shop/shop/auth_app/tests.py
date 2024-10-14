@@ -5,6 +5,11 @@ from django.test.client import Client
 
 from shop.auth_app.models import ShopUser
 
+USERNAME = 'username'
+USER = 'User'
+TEST_USER = 'test_user'
+TEST_PSW = 'unbreakable'
+
 
 class TestUserManagement(TestCase):
     def setUp(self):
@@ -17,11 +22,11 @@ class TestUserManagement(TestCase):
             password='geekbrains',
         )
         self.user = ShopUser.objects.create_user(
-            username='test_user',
+            username=TEST_USER,
             email='test_user@geekshop.local',
-            password='unbreakable',
+            password=TEST_PSW,
         )
-        self.user_with__first_name = ShopUser.objects.create_user(
+        self.user_with_first_name = ShopUser.objects.create_user(
             username='far',
             email='albert_f@ya.ru',
             password='new_password',
@@ -32,25 +37,26 @@ class TestUserManagement(TestCase):
         """Test main page without login."""
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context['user'].is_anonymous)
+        user = response.context['user']
+        self.assertTrue(user.is_anonymous)
         self.assertEqual(response.context['title'], 'Home page')
-        self.assertNotContains(response, 'User', status_code=200)
-        self.assertNotIn('User', response.content.decode())
+        self.assertNotContains(response, USER, status_code=200)
+        self.assertNotIn(USER, response.content.decode())
 
-        self.client.login(username='test_user', password='unbreakable')
+        self.client.login(username=TEST_USER, password=TEST_PSW)
         response = self.client.get('/auth/login/')
-        self.assertFalse(response.context['user'].is_anonymous)
-        self.assertEqual(response.context['user'], self.user)
+        self.assertFalse(user.is_anonymous)
+        self.assertEqual(user, self.user)
         response = self.client.get('/')
-        self.assertContains(response, 'User', status_code=200)
-        self.assertEqual(response.context['user'], self.user)
-        self.assertIn('User', response.content.decode())
+        self.assertContains(response, USER, status_code=200)
+        self.assertEqual(user, self.user)
+        self.assertIn(USER, response.content.decode())
 
     def test_basket_login_redirect(self):
         response = self.client.get('/basket/')
         self.assertEqual(response.url, '/auth/login/?next=/basket/')
         self.assertEqual(response.status_code, 302)
-        self.client.login(username='test_user', password='unbreakable')
+        self.client.login(username=TEST_USER, password=TEST_PSW)
         response = self.client.get('/basket/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
@@ -61,32 +67,35 @@ class TestUserManagement(TestCase):
         self.assertIn('In basket ', response.content.decode())
 
     def test_user_logout(self):
-        self.client.login(username='test_user', password='unbreakable')
+        self.client.login(username=TEST_USER, password=TEST_PSW)
         response = self.client.get('/auth/login/')
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(response.context['user'].is_anonymous)
+        user = response.context['user']
+        self.assertFalse(user.is_anonymous)
         response = self.client.get('/auth/logout/')
         self.assertEqual(response.status_code, 302)
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context['user'].is_anonymous)
+        self.assertTrue(user.is_anonymous)
 
     def test_user_register(self):
         response = self.client.get('/auth/register/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['title'], 'Registration')
-        self.assertTrue(response.context['user'].is_anonymous)
+        user = response.context['user']
+        self.assertTrue(user.is_anonymous)
         new_user_data = {
-            'username': 'samuel',
+            USERNAME: 'samuel',
             'first_name': 'Samuel',
             'last_name': 'Jackson',
             'password1': 'sam_awesome',
             'password2': 'sam_awesome',
             'email': 'samuel@geekshop.local',
-            'age': '21'}
+            'age': '21',
+        }
         response = self.client.post('/auth/register/', data=new_user_data)
         self.assertEqual(response.status_code, 302)
-        new_user = ShopUser.objects.get(username=new_user_data['username'])
+        new_user = ShopUser.objects.get(username=new_user_data[USERNAME])
         activation_url = '/'.join(
             [
                 settings.DOMAIN_NAME,
@@ -100,12 +109,12 @@ class TestUserManagement(TestCase):
         response = self.client.get(activation_url)
         self.assertEqual(response.status_code, 200)
         self.client.login(
-            username=new_user_data['username'],
+            username=new_user_data[USERNAME],
             password=new_user_data['password1'],
         )
         response = self.client.get('/auth/login/')
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(response.context['user'].is_anonymous)
+        self.assertFalse(user.is_anonymous)
         response = self.client.get('/')
         self.assertContains(
             response=response,
@@ -115,13 +124,14 @@ class TestUserManagement(TestCase):
 
     def test_user_wrong_register(self):
         new_user_data = {
-            'username': 'teen',
+            USERNAME: 'teen',
             'first_name': 'Mary',
             'last_name': 'Poppins',
             'password1': 'forever_young',
             'password2': 'forever_young',
             'email': 'merypoppins@geekshop.local',
-            'age': '17'}
+            'age': '17',
+        }
 
         response = self.client.post('/auth/register/', data=new_user_data)
         self.assertEqual(response.status_code, 200)

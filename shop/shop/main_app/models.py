@@ -36,7 +36,8 @@ class Product(models.Model):
     )
     name = models.CharField(
         verbose_name='Product Name',
-        max_length=128)
+        max_length=128,
+    )
     image = models.ImageField(
         upload_to='products_images',
         blank=True,
@@ -81,8 +82,8 @@ class Product(models.Model):
     def __str__(self):
         return '{0} ({1})'.format(self.name, self.category.name)
 
-    @staticmethod
-    def get_items():
+    @classmethod
+    def get_items(cls):
         return Product.objects.filter(
             is_active=True,
         ).select_related().order_by('category', 'name')

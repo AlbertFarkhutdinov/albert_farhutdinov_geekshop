@@ -1,12 +1,12 @@
 from django.urls import path
 
-from shop.basket_app.views import add, edit, read, remove
+from shop.basket_app.views import add, edit, read_basket, remove
 
 app_name = 'basket_app'
 
 urlpatterns = [
     path('add/<int:product_pk>/', add, name='add'),
     path('remove/<int:product_pk>/', remove, name='remove'),
-    path('', read, name='read'),
+    path('', read_basket, name='read'),
     path('edit/<int:pk>/', edit, name='edit'),
 ]
