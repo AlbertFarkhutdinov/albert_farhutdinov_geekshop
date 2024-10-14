@@ -91,7 +91,7 @@ class Command(BaseCommand):
                 str(order_item.action_order),
                 'Order #{0: 3.0f}'.format(order_item.pk),
                 str(order_item.product.name),
-                'Discount: {0: .2f} rub.'.format(
+                'Discount: {0: .2f}USD'.format(
                     abs(order_item.total_price),
                 ),
                 str(order_item.order.updated - order_item.order.created),

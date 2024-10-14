@@ -5,7 +5,7 @@
     {% include main_app_context.path_to_common_inc|add:'inc_header.html' %}
     <div class="basket_list padding_site">
         <p>{{ basket_app_context.basket_items|basket_total_quantity }} products with cost
-            {{ basket_app_context.basket_items|basket_total_cost }} rub are in the basket.</p>
+            {{ basket_app_context.basket_items|basket_total_cost }}USD are in the basket.</p>
         {% include basket_app_context.path_to_basket_inc|add:'inc_basket_list.html' %}
         <a class="basket_button" href="{% url 'order_urls:order_create' %}">Create order</a>
     </div>

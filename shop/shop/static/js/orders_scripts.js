@@ -78,7 +78,7 @@ window.onload = function() {
                         if (isNaN(quantity_arr[order_item_num])){
                             quantity_arr[order_item_num] = 0;
                         }
-                        var price_html = '<span>' + data.price.toString().replace('.', ',') + '</span>&nbsp;rub.';
+                        var price_html = '<span>' + data.price.toString().replace('.', ',') + '</span>USD';
                         var current_tr = $('.order_form table').find('tr:eq(' + (order_item_num + 1 ) + ')');
                         current_tr.find('td:eq(2)').html(price_html);
                         if (isNaN(current_tr.find('input[type="number"]').val())) {
