@@ -143,19 +143,19 @@ LOGIN_URL = '/auth/login/'
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
-password_validation = 'django.contrib.auth.password_validation'
+validation_prefix = 'django.contrib.auth.password_validation'
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': f'{password_validation}.UserAttributeSimilarityValidator',
+        'NAME': '{0}.UserAttributeSimilarityValidator'.format(validation_prefix),
     },
     {
-        'NAME': f'{password_validation}.MinimumLengthValidator',
+        'NAME': '{0}.MinimumLengthValidator'.format(validation_prefix),
     },
     {
-        'NAME': f'{password_validation}.CommonPasswordValidator',
+        'NAME': '{0}.CommonPasswordValidator'.format(validation_prefix),
     },
     {
-        'NAME': f'{password_validation}.NumericPasswordValidator',
+        'NAME': '{0}.NumericPasswordValidator'.format(validation_prefix),
     },
 ]
 

@@ -14,7 +14,7 @@ class ProductCategory(models.Model):
     description = models.TextField(verbose_name='Description', blank=True)
     is_active = models.BooleanField(
         db_index=True,
-        verbose_name="Is Active?",
+        verbose_name='Is Active?',
         default=True,
     )
 
@@ -61,25 +61,25 @@ class Product(models.Model):
         default=0,
     )
     is_hot = models.BooleanField(
-        verbose_name="Is hot?",
+        verbose_name='Is hot?',
         default=False,
     )
     is_featured = models.BooleanField(
-        verbose_name="Is featured?",
+        verbose_name='Is featured?',
         default=False,
     )
     is_new = models.BooleanField(
-        verbose_name="Is new?",
+        verbose_name='Is new?',
         default=False,
     )
     is_active = models.BooleanField(
         db_index=True,
-        verbose_name="Is active?",
+        verbose_name='Is active?',
         default=True,
     )
 
     def __str__(self):
-        return f"{self.name} ({self.category.name})"
+        return '{0} ({1})'.format(self.name, self.category.name)
 
     @staticmethod
     def get_items():

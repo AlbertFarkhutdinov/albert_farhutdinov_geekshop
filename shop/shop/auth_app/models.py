@@ -32,10 +32,7 @@ class ShopUser(AbstractUser):
         return self.username
 
     def is_activation_key_expired(self):
-        if now() <= self.activation_key_expires:
-            return False
-        else:
-            return True
+        return now() > self.activation_key_expires
 
 
 class ShopUserProfile(models.Model):
@@ -56,12 +53,12 @@ class ShopUserProfile(models.Model):
     )
     tag_line = models.CharField(
         verbose_name='Tags',
-        max_length=128, 
+        max_length=128,
         blank=True,
     )
     about_me = models.TextField(
         verbose_name='About Me',
-        max_length=512, 
+        max_length=512,
         blank=True,
     )
     gender = models.CharField(
@@ -71,17 +68,17 @@ class ShopUserProfile(models.Model):
     )
     vk_page = models.CharField(
         verbose_name='VK account',
-        max_length=128, 
+        max_length=128,
         blank=True,
     )
     country = models.CharField(
         verbose_name='Country',
-        max_length=128, 
+        max_length=128,
         blank=True,
     )
     city = models.CharField(
         verbose_name='City',
-        max_length=128, 
+        max_length=128,
         blank=True,
     )
 

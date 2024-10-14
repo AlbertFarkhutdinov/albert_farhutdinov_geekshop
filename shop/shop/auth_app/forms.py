@@ -22,14 +22,14 @@ class ShopUserRegisterForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
+        for _, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
             field.help_text = ''
 
     def clean_age(self):
         data = self.cleaned_data['age']
         if data < 18:
-            raise forms.ValidationError("You are too young!")
+            raise forms.ValidationError('You are too young!')
         return data
 
     def save(self, commit=True):
@@ -79,5 +79,5 @@ class ShopUserProfileEditForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ShopUserProfileEditForm, self).__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
+        for _, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'

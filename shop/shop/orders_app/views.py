@@ -141,7 +141,7 @@ class OrderRead(IsAuthenticatedUser, DetailView):
         return context
 
 
-@user_passes_test(lambda u: u.is_authenticated)
+@user_passes_test(lambda user: user.is_authenticated)
 def order_forming_complete(request, pk):
     order = get_object_or_404(Order, pk=pk)
     order.status = Order.SENT_TO_PROCEED
@@ -149,7 +149,7 @@ def order_forming_complete(request, pk):
     return HttpResponseRedirect(reverse('order_urls:orders_list'))
 
 
-@user_passes_test(lambda u: u.is_authenticated)
+@user_passes_test(lambda user: user.is_authenticated)
 @receiver(pre_save, sender=OrderItem)
 @receiver(pre_save, sender=BasketSlot)
 def product_quantity_update_save(sender, update_fields, instance, **kwargs):
@@ -163,7 +163,7 @@ def product_quantity_update_save(sender, update_fields, instance, **kwargs):
     instance.product.save()
 
 
-@user_passes_test(lambda u: u.is_authenticated)
+@user_passes_test(lambda user: user.is_authenticated)
 @receiver(pre_delete, sender=OrderItem)
 @receiver(pre_delete, sender=BasketSlot)
 def product_quantity_update_delete(sender, instance, **kwargs):
@@ -176,8 +176,8 @@ def get_product_price(request, pk):
         product = Product.objects.filter(pk=int(pk)).first()
         if product:
             return JsonResponse({'price': product.price})
-        else:
-            return JsonResponse({'price': 0})
+        return JsonResponse({'price': 0})
+    return None
 
 
 def get_order_list(user):
@@ -188,5 +188,4 @@ def get_order_list(user):
             cache_object = Order.objects.filter(user=user)
             cache.set(key, cache_object)
         return cache_object
-    else:
-        return Order.objects.filter(user=user)
+    return Order.objects.filter(user=user)

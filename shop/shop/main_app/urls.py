@@ -1,7 +1,9 @@
 from django.urls import path
-# from django.views.decorators.cache import cache_page
 
 import shop.main_app.views as main_app
+
+# from django.views.decorators.cache import cache_page
+
 
 app_name = 'main_app'
 urlpatterns = [

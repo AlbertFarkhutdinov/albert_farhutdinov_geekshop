@@ -5,58 +5,58 @@ path_to_common_inc = 'common_includes/'
 path_to_media = '/media/'
 main_menu = [
     {
-        "href": "main_urls:featured",
-        "name": "HOME",
+        'href': 'main_urls:featured',
+        'name': 'HOME',
     },
     {
-        "href": "products_urls:hot",
-        "name": "PRODUCTS",
+        'href': 'products_urls:hot',
+        'name': 'PRODUCTS',
     },
     {
-        "href": "history_url",
-        "name": "HISTORY",
+        'href': 'history_url',
+        'name': 'HISTORY',
     },
     {
-        "href": "showroom_url",
-        "name": "SHOWROOM",
+        'href': 'showroom_url',
+        'name': 'SHOWROOM',
     },
     {
-        "href": "contacts_url",
-        "name": "CONTACTS",
+        'href': 'contacts_url',
+        'name': 'CONTACTS',
     },
 ]
 
 info_menu = [
     {
-        "href": "#",
-        "name": "Sales terms",
+        'href': '#',
+        'name': 'Sales terms',
     },
     {
-        "href": "#",
-        "name": "Customer care",
+        'href': '#',
+        'name': 'Customer care',
     },
     {
-        "href": "#",
-        "name": "Delivery",
+        'href': '#',
+        'name': 'Delivery',
     },
     {
-        "href": "#",
-        "name": "Architect accounts",
+        'href': '#',
+        'name': 'Architect accounts',
     },
     {
-        "href": "#",
-        "name": "Careers",
+        'href': '#',
+        'name': 'Careers',
     },
     {
-        "href": "#",
-        "name": "Exchanges & returns",
+        'href': '#',
+        'name': 'Exchanges & returns',
     },
 ]
 
 contact_information = {
-    "phone": "1900 - 1234 -5678",
-    "email": "info@interior.com",
-    "address": "12 W 1st St, 90001 Los Angeles, California",
+    'phone': '1900 - 1234 -5678',
+    'email': 'info@interior.com',
+    'address': '12 W 1st St, 90001 Los Angeles, California',
 }
 
 socials = [
@@ -84,14 +84,15 @@ socials = [
 
 
 def get_basket(user):
-    basket_array = []
     if user.is_authenticated:
-        basket_array = user.basket.select_related().all()
-    return basket_array
+        return user.basket.select_related().all()
+    return []
 
 
 def get_username(user):
-    return 'Anonymous' if user.is_anonymous else user.first_name
+    if user.is_anonymous:
+        return 'Anonymous'
+    return user.first_name
 
 
 def common_context(user):

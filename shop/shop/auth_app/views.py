@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required  # , user_passes_test
 from django.core.mail import send_mail
 from django.db import transaction
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, render
@@ -27,9 +27,8 @@ def register(request):
             if send_verify_mail(user):
                 print('Verification mail is sent.')
                 return HttpResponseRedirect(reverse('auth_urls:login'))
-            else:
-                print('Verification mail sending is failed.')
-                return HttpResponseRedirect(reverse('auth_urls:login'))
+            print('Verification mail sending is failed.')
+            return HttpResponseRedirect(reverse('auth_urls:login'))
     context = {
         'title': 'Registration',
         'register_form': register_form,
@@ -47,8 +46,7 @@ def login(request):
             auth.login(request, user)
             if request.POST.get('next'):
                 return HttpResponseRedirect(request.POST.get('next'))
-            else:
-                return HttpResponseRedirect(reverse('main_urls:featured'))
+            return HttpResponseRedirect(reverse('main_urls:featured'))
 
     get_next = request.GET.get('next')
     context = {
@@ -128,9 +126,8 @@ def verify(request, email, activation_key):
                 backend='django.contrib.auth.backends.ModelBackend',
             )
             return render(request, 'auth_app/verification.html')
-        else:
-            print(f'Error activation user: {user}')
-            return render(request, 'auth_app/verification.html')
+        print(f'Error activation user: {user}')
+        return render(request, 'auth_app/verification.html')
     except Exception as e:
         print(f'Error activation user: {e.args}')
         return HttpResponseRedirect(reverse('main_urls:featured'))

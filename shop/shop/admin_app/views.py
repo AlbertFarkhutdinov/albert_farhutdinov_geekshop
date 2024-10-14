@@ -15,7 +15,7 @@ from shop.auth_app.models import ShopUser
 from shop.main_app.models import Product, ProductCategory
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda user: user.is_superuser)
 def main_admin_page(request):
     context = {
         'title': 'Admin Page',
@@ -42,7 +42,7 @@ class ProductListView(IsSuperUserView, ListView):
         queryset = Product.objects.all()
         category_pk = self.kwargs.get('category_pk')
         if category_pk:
-            queryset = queryset.filter(category=category_pk)
+            return queryset.filter(category=category_pk)
         return queryset
 
 

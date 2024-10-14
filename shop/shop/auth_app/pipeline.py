@@ -55,8 +55,7 @@ def save_user_profile(backend, user, response, *args, **kwargs):
             if age < 18:
                 user.delete()
                 raise AuthForbidden('social_core.backends.vk.VKOAuth2')
-            else:
-                user.age = age
+            user.age = age
         if data_1['domain']:
             user.shopuserprofile.vk_page = 'https://vk.com/' + data_1['domain']
         if data_1['country']['title']:

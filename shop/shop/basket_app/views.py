@@ -70,6 +70,7 @@ def edit(request, pk):
         else:
             basket_slot.delete()
         return HttpResponse('Ok!')
+    return None
 
 
 # def get_basket_slot(user, product_pk):

@@ -36,19 +36,28 @@ def products(request, pk=None):
     product_categories = get_categories()
     all_products = get_products().order_by('price')
     if pk is None:
-        context = {'product_categories': product_categories,
-                   'hot_product': all_products.filter(is_hot=True).first(),
-                   }
-        page_name(context, 'Hot Deal')
-        return render(request, 'main_app/hot_product.html', context)
-    else:
-        if pk > 0:
-            all_products = get_products_in_category(pk).order_by('price')
-        context = {'product_categories': product_categories,
-                   'products': all_products,
-                   }
-        page_name(context, 'Our Product Range')
-        return render(request, 'main_app/products.html', context)
+        context = {
+            'product_categories': product_categories,
+            'hot_product': all_products.filter(is_hot=True).first(),
+        }
+        page_name(context, name='Hot Deal')
+        return render(
+            request=request,
+            template_name='main_app/hot_product.html',
+            context=context,
+        )
+    if pk > 0:
+        all_products = get_products_in_category(pk).order_by('price')
+    context = {
+        'product_categories': product_categories,
+        'products': all_products,
+    }
+    page_name(context, name='Our Product Range')
+    return render(
+        request=request,
+        template_name='main_app/products.html',
+        context=context,
+    )
 
 
 def history(request):
@@ -91,11 +100,10 @@ def get_products():
             ).select_related('category')
             cache.set(key, cache_products)
         return cache_products
-    else:
-        return Product.objects.filter(
-            is_active=True,
-            category__is_active=True,
-        ).select_related('category')
+    return Product.objects.filter(
+        is_active=True,
+        category__is_active=True,
+    ).select_related('category')
 
 
 def get_categories():
@@ -106,8 +114,7 @@ def get_categories():
             cache_categories = ProductCategory.objects.filter(is_active=True)
             cache.set(key, cache_categories)
         return cache_categories
-    else:
-        return ProductCategory.objects.filter(is_active=True)
+    return ProductCategory.objects.filter(is_active=True)
 
 
 def get_products_in_category(pk):
@@ -122,12 +129,11 @@ def get_products_in_category(pk):
             )
             cache.set(key, cache_products)
         return cache_products
-    else:
-        return Product.objects.filter(
-            category__pk=pk,
-            is_active=True,
-            category__is_active=True,
-        )
+    return Product.objects.filter(
+        category__pk=pk,
+        is_active=True,
+        category__is_active=True,
+    )
 
 
 def get_cache_object(model, key_word, pk):
@@ -138,8 +144,8 @@ def get_cache_object(model, key_word, pk):
             cache_object = get_object_or_404(model, pk=pk)
             cache.set(key, cache_object)
             return cache_object
-        else:
-            return get_object_or_404(model, pk=pk)
+        return get_object_or_404(model, pk=pk)
+    return None
 
 
 def get_category(pk):

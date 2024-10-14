@@ -52,7 +52,7 @@ class Order(models.Model):
         verbose_name_plural = 'Orders'
 
     def __str__(self):
-        return f'Current order: {self.pk}'
+        return f'Order #{self.pk}; {self.created}'
 
     def get_summary(self):
         items = self.order_items.select_related()
@@ -89,9 +89,6 @@ class Order(models.Model):
         self.is_active = False
         self.save()
 
-    def __str__(self):
-        return f'Order #{self.pk}; {self.created}'
-
 
 class OrderItem(models.Model):
     objects = OrderItemQuerySet.as_manager()
@@ -102,7 +99,7 @@ class OrderItem(models.Model):
 
     order = models.ForeignKey(
         Order,
-        related_name="order_items",
+        related_name='order_items',
         on_delete=models.CASCADE,
     )
     product = models.ForeignKey(

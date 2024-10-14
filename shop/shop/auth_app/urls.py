@@ -1,6 +1,6 @@
 from django.urls import path
 
-import auth_app.views as auth_app
+import shop.auth_app.views as auth_app
 
 app_name = 'auth_app'
 
