@@ -28,7 +28,7 @@ def add(request, product_pk):
             ),
         )
     product = sc.get_object_or_404(Product, pk=product_pk)
-    basket_slot = BasketSlot.objects.filter(user=request.user, product=product)
+    basket_slot = BasketSlot.slots.filter(user=request.user, product=product)
     if basket_slot:
         basket_slot = basket_slot.select_related().first()
         basket_slot.quantity = models.F('quantity') + 1
@@ -44,7 +44,7 @@ def add(request, product_pk):
 @login_required
 def remove(request, product_pk):
     product = sc.get_object_or_404(Product, pk=product_pk)
-    basket_slot = BasketSlot.objects.filter(user=request.user, product=product)
+    basket_slot = BasketSlot.slots.filter(user=request.user, product=product)
     if basket_slot:
         basket_slot = basket_slot.select_related().first()
     if basket_slot:

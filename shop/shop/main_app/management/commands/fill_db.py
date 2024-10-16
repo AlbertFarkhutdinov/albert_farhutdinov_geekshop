@@ -21,17 +21,17 @@ def load_from_json(file_name):
 class Command(BaseCommand):
     def handle(self, *args, **options):
         categories = load_from_json('categories')
-        ProductCategory.objects.all().delete()
+        ProductCategory.categories.all().delete()
         for category in categories:
             new_category = ProductCategory(**category)
             new_category.save()
 
         products = load_from_json('products')
 
-        Product.objects.all().delete()
+        Product.products.all().delete()
         for product in products:
             category_name = product['category']
-            product['category'] = ProductCategory.objects.get(
+            product['category'] = ProductCategory.categories.get(
                 name=category_name,
             )
             new_product = Product(**product)

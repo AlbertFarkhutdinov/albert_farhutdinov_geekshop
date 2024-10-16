@@ -2,14 +2,14 @@ from django.db import models
 
 
 class ProductCategory(models.Model):
-    objects = models.Manager()
+    categories = models.Manager()
 
     class Meta:
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
         ordering = ['name']
 
-    id = models.BigAutoField(primary_key=True)
+    category_id = models.BigAutoField(primary_key=True)
     name = models.CharField(verbose_name='Name', max_length=64, unique=True)
     description = models.TextField(verbose_name='Description', blank=True)
     is_active = models.BooleanField(
@@ -23,7 +23,7 @@ class ProductCategory(models.Model):
 
 
 class Product(models.Model):
-    objects = models.Manager()
+    products = models.Manager()
 
     class Meta:
         verbose_name = 'Product'
@@ -84,6 +84,6 @@ class Product(models.Model):
 
     @classmethod
     def get_items(cls):
-        return Product.objects.filter(
+        return Product.products.filter(
             is_active=True,
         ).select_related().order_by('category', 'name')

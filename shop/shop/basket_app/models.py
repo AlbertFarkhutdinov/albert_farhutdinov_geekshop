@@ -14,7 +14,7 @@ class BasketQuerySet(models.QuerySet):
 
 
 class BasketSlot(models.Model):
-    objects = BasketQuerySet.as_manager()
+    slots = BasketQuerySet.as_manager()
 
     class Meta:
         verbose_name = 'Basket Slot'
@@ -51,13 +51,13 @@ class BasketSlot(models.Model):
 
     @classmethod
     def get_items(cls, user):
-        return BasketSlot.objects.filter(
+        return BasketSlot.slots.filter(
             user=user,
         ).select_related().order_by('product__category')
 
     @classmethod
     def get_item(cls, pk):
-        return BasketSlot.objects.filter(pk=pk).select_related().first()
+        return BasketSlot.slots.filter(pk=pk).select_related().first()
 
     # def delete(self):
     #     self.product.quantity += self.quantity

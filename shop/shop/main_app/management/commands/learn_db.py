@@ -80,7 +80,7 @@ class Command(BaseCommand):
             action_expired_price,
             output_field=models.DecimalField(),
         )
-        test_orders = OrderItem.objects.annotate(
+        test_orders = OrderItem.order_items.annotate(
             action_order=action_order,
         ).annotate(
             total_price=total_price,

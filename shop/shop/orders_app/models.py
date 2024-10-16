@@ -14,7 +14,7 @@ class OrderItemQuerySet(models.QuerySet):
 
 
 class Order(models.Model):
-    objects = models.Manager()
+    orders = models.Manager()
     forming = 'FM'
     sent_to_proceed = 'STP'
     proceeded = 'PRD'
@@ -90,7 +90,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    objects = OrderItemQuerySet.as_manager()
+    order_items = OrderItemQuerySet.as_manager()
 
     class Meta:
         verbose_name = 'Order Item'
@@ -121,13 +121,13 @@ class OrderItem(models.Model):
 
     @classmethod
     def get_items(cls, user):
-        return OrderItem.objects.filter(
+        return OrderItem.order_items.filter(
             user=user,
         ).select_related().order_by('product__category')
 
     @classmethod
     def get_item(cls, pk):
-        return OrderItem.objects.filter(pk=pk).select_related().first()
+        return OrderItem.order_items.filter(pk=pk).select_related().first()
 
     # def delete(self):
     #     self.product.quantity += self.quantity

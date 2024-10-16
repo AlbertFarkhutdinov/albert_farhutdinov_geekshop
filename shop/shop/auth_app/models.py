@@ -36,7 +36,7 @@ class ShopUser(AbstractUser):
 
 
 class ShopUserProfile(models.Model):
-    objects = models.Manager()
+    profiles = models.Manager()
     male = 'M'
     female = 'F'
 
@@ -86,7 +86,7 @@ class ShopUserProfile(models.Model):
     @receiver(post_save, sender=ShopUser)
     def create_user_profile(sender, instance, created, *args, **kwargs):
         if created:
-            ShopUserProfile.objects.create(user=instance)
+            ShopUserProfile.profiles.create(user=instance)
 
     @receiver(post_save, sender=ShopUser)
     def save_user_profile(sender, instance, *args, **kwargs):

@@ -177,7 +177,7 @@ def product_quantity_update_delete(sender, instance, **kwargs):
 
 def get_product_price(request, pk):
     if request.is_ajax():
-        product = Product.objects.filter(pk=int(pk)).first()
+        product = Product.products.filter(pk=int(pk)).first()
         if product:
             return JsonResponse({PRICE: product.price})
         return JsonResponse({PRICE: 0})
@@ -189,7 +189,7 @@ def get_order_list(user):
         key = 'order_list'
         cache_object = cache.get(key)
         if cache_object is None:
-            cache_object = Order.objects.filter(user=user)
+            cache_object = Order.orders.filter(user=user)
             cache.set(key, cache_object)
         return cache_object
-    return Order.objects.filter(user=user)
+    return Order.orders.filter(user=user)

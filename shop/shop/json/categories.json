@@ -1,26 +1,26 @@
 [
   {
-    "id": 1,
+    "category_id": 1,
     "name": "Home",
     "description": ""
   },
   {
-    "id": 2,
+    "category_id": 2,
     "name": "Office",
     "description": ""
   },
   {
-    "id": 3,
+    "category_id": 3,
     "name": "Furniture",
     "description": ""
   },
   {
-    "id": 4,
+    "category_id": 4,
     "name": "Modern",
     "description": ""
   },
   {
-    "id": 5,
+    "category_id": 5,
     "name": "Classic",
     "description": ""
   }

@@ -94,13 +94,13 @@ def get_products():
         key = 'products'
         cache_products = cache.get(key)
         if cache_products is None:
-            cache_products = Product.objects.filter(
+            cache_products = Product.products.filter(
                 is_active=True,
                 category__is_active=True,
             ).select_related('category')
             cache.set(key, cache_products)
         return cache_products
-    return Product.objects.filter(
+    return Product.products.filter(
         is_active=True,
         category__is_active=True,
     ).select_related('category')
@@ -111,10 +111,10 @@ def get_categories():
         key = 'categories'
         cache_categories = cache.get(key)
         if cache_categories is None:
-            cache_categories = ProductCategory.objects.filter(is_active=True)
+            cache_categories = ProductCategory.categories.filter(is_active=True)
             cache.set(key, cache_categories)
         return cache_categories
-    return ProductCategory.objects.filter(is_active=True)
+    return ProductCategory.categories.filter(is_active=True)
 
 
 def get_products_in_category(pk):
@@ -122,14 +122,14 @@ def get_products_in_category(pk):
         key = 'products_in_category_{0}'.format(pk)
         cache_products = cache.get(key)
         if cache_products is None:
-            cache_products = Product.objects.filter(
+            cache_products = Product.products.filter(
                 category__pk=pk,
                 is_active=True,
                 category__is_active=True,
             )
             cache.set(key, cache_products)
         return cache_products
-    return Product.objects.filter(
+    return Product.products.filter(
         category__pk=pk,
         is_active=True,
         category__is_active=True,

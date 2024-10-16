@@ -35,7 +35,7 @@ class ShopUserWithBasketAdmin(admin.ModelAdmin):
     get_basket_quantity.short_description = 'Items in basket'
 
     def get_basket_cost(self, instance):
-        basket = BasketSlot.objects.filter(user=instance)
+        basket = BasketSlot.slots.filter(user=instance)
         return sum([basket_slot.cost for basket_slot in basket])
 
     get_basket_cost.short_description = 'Basket Cost'

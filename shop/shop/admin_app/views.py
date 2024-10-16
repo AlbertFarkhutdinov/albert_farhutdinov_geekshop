@@ -39,11 +39,11 @@ class ProductListView(IsSuperUserView, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context[TITLE] = 'Product List'
-        context['product_categories'] = ProductCategory.objects.all()
+        context['product_categories'] = ProductCategory.categories.all()
         return context
 
     def get_queryset(self):
-        queryset = Product.objects.all()
+        queryset = Product.products.all()
         category_pk = self.kwargs.get('category_pk')
         if category_pk:
             return queryset.filter(category=category_pk)
@@ -218,7 +218,7 @@ class UserDeleteView(IsSuperUserView, DeleteView):
 
 
 def db_profile_by_type(prefix, _type, queries):
-    update_queries = list(filter(lambda x: _type in x['sql'], queries))
+    update_queries = list(filter(lambda query: _type in query['sql'], queries))
     # print(f'db_profile {_type} for {prefix}:')
     for query in update_queries:
         print(query['sql'])
