@@ -1,0 +1,16 @@
+{% extends 'main_app/base.html'%}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'auth_app/css/bootstrap.min.css'%}">
+{% endblock %}
+
+<body>
+<div class="container" style="padding: 0;">
+    <div class="login">
+        {% block container %}
+        {% endblock %}
+    </div>
+    {% block footer %}
+    {% endblock %}
+</div>
+</body>

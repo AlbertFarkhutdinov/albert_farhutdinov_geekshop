@@ -1,0 +1,14 @@
+{% extends 'main_app/base.html'%}
+{% load static %}
+{% block greetings %}
+{% endblock %}
+{% block container %}
+<h2>Admin Page</h2>
+<ul>
+    <li><a href="{% url 'admin_custom_urls:categories' %}">Product Categories</a></li>
+    <li><a href="{% url 'admin_custom_urls:products' %}">Products</a></li>
+    <li><a href="{% url 'admin_custom_urls:users' %}">Users</a></li>
+</ul>
+{% endblock %}
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,27 @@
+[
+  {
+    "category_id": 1,
+    "name": "Home",
+    "description": ""
+  },
+  {
+    "category_id": 2,
+    "name": "Office",
+    "description": ""
+  },
+  {
+    "category_id": 3,
+    "name": "Furniture",
+    "description": ""
+  },
+  {
+    "category_id": 4,
+    "name": "Modern",
+    "description": ""
+  },
+  {
+    "category_id": 5,
+    "name": "Classic",
+    "description": ""
+  }
+]

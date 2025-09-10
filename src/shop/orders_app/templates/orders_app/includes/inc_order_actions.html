@@ -1,0 +1,6 @@
+{% if object.status == 'FM' %}
+    <a class="basket_button" href="{% url 'order_urls:order_forming_complete' object.pk %}">Buy</a>
+    <a class="basket_button" href="{% url 'order_urls:order_delete' object.pk %}">Delete</a>
+{% endif %}
+<a class="basket_button" href="{% url 'order_urls:orders_list' %}">To orders list</a>
+<a class="basket_button" href="{% url 'main_urls:featured' %}">To main page</a>

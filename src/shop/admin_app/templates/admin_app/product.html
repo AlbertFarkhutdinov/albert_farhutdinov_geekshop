@@ -1,0 +1,17 @@
+{% extends 'main_app/base.html'%}
+{% load static %}
+{% block greetings %}
+{% endblock %}
+{% block container %}
+<h1>{{ object.name }}</h1>
+<img width="200" src='{{admin_app_context.path_to_media}}{{ object.image }}/'>
+<p>{{ object.short_desc }}</p>
+<a href="{% url 'admin_custom_urls:product_update' object.pk %}">Update</a>
+<br>
+<a href="{% url 'admin_custom_urls:product_delete' object.pk %}">Delete</a>
+<br>
+<br>
+<a href="{% url 'admin_custom_urls:products' %}"> <-- To all products</a>
+{% endblock %}
+{% block footer %}
+{% endblock %}
