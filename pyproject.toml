@@ -8,23 +8,28 @@ authors = [
     {name = "AlbertFarkhutdinov",email = "albertfarhutdinov@gmail.com"}
 ]
 dependencies = [
-    "django (<6.0)",
-    "django-debug-toolbar (<6.4)",
-    "django-debug-toolbar-template-profiler (<2.2)",
-    "django-extensions (<4.2)",
+    "django (<7.0)",
+    "django-debug-toolbar (<7.0)",
+    "django-debug-toolbar-template-profiler (<3.0)",
+    "django-extensions (<5.0)",
     "pillow (<12.3)",
-    "psycopg2 (<2.10)",
+    "psycopg2 (<3.0); sys_platform == 'win32'",
+    "psycopg2-binary (<3.0); sys_platform == 'linux'",
+    "python-dotenv (<2.0)",
     "social_auth_app_django (<6.0)",
+    "requests (<3.0)",
+    "uvicorn (<1.0)",
+    "whitenoise[brotli] (<6.13)",
 ]
 
 [dependency-groups]
 dev = [
+    "djangorestframework-stubs (<4.0)",
     "pytest (<10.0)",
-    "pytest-cov<8.0",
+    "pytest-cov (<8.0)",
+    "pytest-django (<5.0)",
+    "pytest-mock (<4.0)",
     "ruff (<1.0)",
+    "ty (<1.0)",
     "wemake-python-styleguide (<2.0)",
 ]
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"

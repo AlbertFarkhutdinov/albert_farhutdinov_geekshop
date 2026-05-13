@@ -1,0 +1,71 @@
+services:
+  web:
+    build: .
+    container_name: dev-web
+    env_file: .env
+    environment:
+      LDAP_HOST: "ldap"
+      DB_ENGINE: "postgresql"
+      POSTGRES_HOST: "db"
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: "${POSTGRES_DB:-shop}"
+      POSTGRES_USER: "${POSTGRES_USER:-shop}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-shop_password}"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      ldap:
+        condition: service_started
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: dev-db
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB:-shop}"
+      POSTGRES_USER: "${POSTGRES_USER:-shop}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-shop_password}"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-shop} -d ${POSTGRES_DB:-shop}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  ldap:
+    image: osixia/openldap:stable
+    container_name: dev-ldap
+    environment:
+      LDAP_ORGANISATION: "${LDAP_ORGANISATION:-Example Corp}"
+      LDAP_DOMAIN: "${LDAP_DOMAIN:-example.local}"
+      LDAP_ADMIN_PASSWORD: "${LDAP_BIND_PASSWORD:-adminpassword}"
+    ports:
+      - "389:389"   # LDAP
+      - "636:636"   # LDAPS
+    volumes:
+      - ldap_data:/var/lib/ldap
+      - ldap_config:/etc/ldap/slapd.d
+    restart: unless-stopped
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:stable
+    container_name: dev-phpldapadmin
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "ldap"
+      PHPLDAPADMIN_HTTPS: "false"
+    ports:
+      - "8080:80"
+    depends_on:
+      - ldap
+
+volumes:
+  postgres_data:
+  ldap_data:
+  ldap_config:

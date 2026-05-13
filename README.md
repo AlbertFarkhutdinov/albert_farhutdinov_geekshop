@@ -54,11 +54,11 @@ they will not be present in the environment.
 
 3.1. Apply migrations:
 
-    python src/shop/manage.py migrate
+    uv run manage.py migrate
 
 3.2. Fill SQLite database.
 
-    python src/shop/manage.py fill_db
+    uv run manage.py fill_db
 
 3.3. Also, you need access the Internet to display fonts correctly.
 
@@ -67,13 +67,13 @@ they will not be present in the environment.
 You can run the following command in terminal from root directory to start a project:
 
 ```bash
-python src/shop/manage.py runserver
+uv run manage.py runserver
 ```
 
 Also. you can change directory to bat/ and use run.bat:
 
 ```bash
-cd src/shop/bat
+cd bat
 run
 ```
 	

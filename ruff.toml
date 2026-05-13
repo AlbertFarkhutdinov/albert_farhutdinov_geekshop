@@ -8,6 +8,7 @@ extend-exclude = [
   # Intentionally bad code:
   "tests/**/__snapshots__/**",
   "tests/fixtures/**",
+  "**/migrations/*",
 ]
 
 [format]
@@ -62,6 +63,7 @@ ignore = [
   "ANN003", # Missing type annotation for **kwargs
   "D203",   # 1 blank line required before class docstring
   "D212",   # Multi-line docstring summary should start at the first line
+  "TRY003", # Avoid specifying long messages outside the exception class
   "TRY400", # Use `logging.exception` instead of `logging.error`
   "T201",   # `print` found
 ]
@@ -78,10 +80,32 @@ external = [
 "tests/*.py" = [
   "S101",   # asserts
   "S105",   # hardcoded passwords
+  "S106",   # hardcoded passwords in function arguments
   "S404",   # subprocess calls are for tests
   "S603",   # do not require `shell=True`
   "S607",   # partial executable paths
   "SLF001", # private member accessed
+]
+"**/tests.py" = [
+  "S101",   # asserts
+  "S105",   # hardcoded passwords
+  "S106",   # hardcoded passwords in function arguments
+  "S404",   # subprocess calls are for tests
+  "S603",   # do not require `shell=True`
+  "S607",   # partial executable paths
+  "SLF001", # private member accessed
+]
+"entrypoint.py" = [
+  "S404",    # `subprocess` module is possibly insecure
+  "S603",
+  "S607",    # partial executable paths
+]
+"**/cli_utils.py" = [
+  "S104",   # Possible binding to all interfaces
+]
+"rename_project.py" = [
+  "S404",    # `subprocess` module is possibly insecure
+  "S607",    # partial executable paths
 ]
 
 [lint.flake8-quotes]
