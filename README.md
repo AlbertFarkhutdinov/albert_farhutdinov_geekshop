@@ -54,11 +54,16 @@ they will not be present in the environment.
 
 3.1. Apply migrations:
 
-    uv run manage.py migrate
+```bash
+python src/shop/manage.py makemigrations
+python src/shop/manage.py migrate
+```
 
 3.2. Fill SQLite database.
 
-    uv run manage.py fill_db
+```bash
+python src/shop/manage.py fill_db
+```
 
 3.3. Also, you need access the Internet to display fonts correctly.
 
