@@ -72,13 +72,13 @@ python src/shop/manage.py fill_db
 You can run the following command in terminal from root directory to start a project:
 
 ```bash
-python src/shop/manage.py runserver
+uv run manage.py runserver
 ```
 
 Also. you can change directory to bat/ and use run.bat:
 
 ```bash
-cd src/shop/bat
+cd bat
 run
 ```
 	
